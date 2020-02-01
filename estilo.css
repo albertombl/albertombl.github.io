@@ -1,0 +1,12 @@
+div{
+    text-align: center;
+    /*display: inline-block;*/
+}
+
+h1,h2{
+    text-align: center;
+}
+
+body{
+    background-color: lightsteelblue;
+}
