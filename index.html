@@ -52,6 +52,30 @@
 						<h2>"Se ha vuelto terriblemente obvio que nuestra tecnología ha superado nuestra humanidad."</h2>
 					</header>
 					<p> Albert Einstein</p>
+					<div id="sketch-div"></div>
+    
+<script>
+
+function setup(){
+var canvas = createCanvas(200, 200);
+canvas.parent('sketch-div');
+background(255,123,122);
+}
+			
+function draw(){
+fill(random(255),random(255),random(255),50);
+ellipse(random(width),random(height), width/100, width/100);
+
+
+}
+function mouseMoved(){
+   ellipse(mouseX,mouseY,width/10,width/10);
+}
+function mousePressed(){
+    background(255,123,122);
+}
+
+</script>
 					<!--<ul class="actions">
 						<li><a href="#" class="button alt">Learn More</a></li>
 					</ul> -->
