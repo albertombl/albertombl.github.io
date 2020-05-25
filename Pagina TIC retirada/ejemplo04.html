@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Primeros pasos con Javascript</title>
+
+<!-- Vamos a meter un script, es decir, un programa en el head, para que lo ejecute nada más entrar en la página sin hacer nosotros nada-->
+<link rel="stylesheet" href="estilo.css">
+
+<script type="text/javascript" src="programas.js"> </script>
+
+  </head>
+
+  <body>
+    <header>
+      <h1>Empezamos a movernos. De la web estática a la dinámica
+      </h1>
+      <h2 class="importante">FUNCIONES</h2>
+    </header>
+<main>
+<p>
+En este punto es interesante reflexionar sobre lo que es un programa. Pregunta a tu profesor. Normalmente usamos indistintamente las palabras programa, script, función, método... Esto se debe a que, en esencia, todos ellos son programas (secuencia algorítmica de instrucciones), pero cada palabra agrega un matiz concreto en base al contexto.
+</p>
+<p>
+Hasta ahora, hemos construido dos script (programas) diferentes: <strong>alerta.js</strong> y <strong>pide_nombre.js</strong> .Estos debían ejecutarse completos cuando eran llamados. Al crear los botones, especificamos en el atributo correspondiente <code>onclick="función_que_queremos_ejecutar"</code> sus nombres como si fueran funciones de la siguiente manera:
+</p>
+<div class="codigo">
+<xmp><input  class="clickMe" type="button" value="pide_nombre.js" onclick="pide_nombre()" />
+  <input  class="clickMe" type="button" value="alerta.js" onclick="alerta()" /></xmp>
+</div>
+<p>
+Ahora bien, cuando tenemos un gran número de pequeños script/programas, nos es útil tenerlos todos en un mismo archivo identificándolos como funciones. Es decir, ya vemos que las funciones son programas que están escritos dentro de otros programas....
+<p>
+La forma en la que definimos una función en Javascript es la siguiente:
+</p>
+
+<div class="codigo">
+  <pre><code>
+    function pide_nombre()
+    {
+      //Dentro de estas llaves irá el programa pide_nombre
+      var nombre;
+      nombre=prompt("Escribe tu nombre","Nombre")
+      alert("Hola " + nombre + ".\nEspero que veas el potencial de esta herramienta.\n¿Sabes quien soy?");
+      alert("Soy TICO y tu profesor me ha programado.");
+    }
+  </code> </pre>
+</div>
+
+<p>
+Pues bien, vamos a crear un archivo llamado <strong>programas.js</strong> en el que incluiréis la función alerta y la función pide_nombre, después generaremos una nueva página web con unos botones que llamarán a estas funciones..
+</p>
+
+<h2>Ejercicio 4. Creación de funciones</h2>
+<ol>
+  <li>Crea un archivo javascript llamado programas.js </li>
+  <li>Declara las funciones alerta y pide_nombre, tal y como se ha explicado antes dentro del archivo programas</li>
+  <li>Ahora crea una nueva página web que deberás linkar con un enlace a la que ya teníamos.</li>
+  <li>Enlaza el script programas.js a la página</li>
+  <li>Incorpora dos botones, uno para cada función alerta.js y pide_nombre.js</li>
+  <li>Finalmente, sube los archivos al campus virtual en una carpeta comprimida llamada <strong>tu_nombre_ejercicio_4.zip</strong></li>
+</ol>
+
+
+  <a class="boton boton_siguiente" href="ejemplo05.html"> Vamos al siguiente ejemplo: ejemplo05.html</a>
+  <a class="boton boton_inicio" href="index.html"> Volvemos al inicio</a>
+</main>
+
+  </body>
+</html>

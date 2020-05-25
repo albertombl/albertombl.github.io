@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Primeros pasos con Javascript</title>
+
+<!-- Vamos a meter un script, es decir, un programa en el head, para que lo ejecute nada más entrar en la página sin hacer nosotros nada-->
+<link rel="stylesheet" href="estilo.css">
+
+<script type="text/javascript" src="programas.js"> </script>
+
+  </head>
+
+  <body>
+    <header>
+      <h1>Empezamos a movernos. De la web estática a la dinámica
+      </h1>
+      <h2 class="importante">Crear un botón que ejecute nuestros programas</h2>
+    </header>
+<main>
+
+  <p> Resulta un incordio que nuestros script se ejecuten siempre al cargar la página. En este ejemplo vamos a crear un botón en nuestra página que ejecute un programa en Javascript</p>
+  <p></p>
+
+<span>Este botón para ejecutar el programa que pedía el nombre</span>
+<input  class="clickMe" type="button" value="pide_nombre.js" onclick="pide_nombre()" />
+<p></p>
+<span>Este botón para ejecutar el programa que nos daba la bienvenida</span>
+<input  class="clickMe" type="button" value="alerta.js" onclick="alerta()" />
+
+
+<p>Los botones los podemos incluir en nuestros archivos html usando el siguiente código código</p>
+
+<xmp><input  class="la_clase_que_desees" type="button" value="texto_en_botón" onclick="función_que_queremos_ejecutar" /></xmp>
+<p>Es importantísimo entender para qué sirve cada uno de los atributos de esta etiqueta:</p>
+<ul>
+
+  <li><code>class="la_clase_que_desees"</code> A estas alturas no hace falta explicar que a través de CSS podemos darle estilo a cualquier elemento de HTML y este no iba a ser la excepción</li>
+  <li> <code>type="button"</code> Al ser tipo button (botón) hereda características clave de los botones de HTML. Es decir, es lo que nos genera la forma de un botón en el que podemos hacer click</li>
+  <li> <code>value="texto_en_botón"</code>  Este es el texto que saldría en el interior del botón</li>
+  <li><strong>IMPORTANTE:</strong>  </li>
+  <li> <code>onclick="función_que_queremos_ejecutar"</code> Habiendo elegido el archivo donde se encuentran el script (programa) que incluye las funciones (pequeños scripts o pequeños programas) solo nos queda elegir cuál ha de ejecutarse al hacer click en eñ botón. Este atributo nos permite elegir esa función. </li>
+<li> <strong>NOTA IMPORTANTE:</strong> Como ves, en este caso el nombre del archivo es el mismo que el nombre de la función ejecutada. Esto ocurrirá siempre que queramos ejecutar todo el archivo, es decir, TODAS LAS FUNCIONES QUE INCORPORE ESTE.</li>
+
+</ul>
+
+Vamos a crear una nueva página web que deberás linkar a la que ya teníamos esta deberá incluir botones para los dos programas</p>
+
+<h2>Ejercicio 3. Adquisición y retorno de datos</h2>
+<ol>
+  <li>Crea una nueva página web que deberás linkar con un enlace a la que ya teníamos.</li>
+  <li>Incorpora dos botones, uno para cada programa alerta.js y pide_nombre.js</li>
+  <li>Finalmente, sube los archivos al campus virtual en una carpeta comprimida llamada <strong>tu_nombre_ejercicio_3.zip</strong></li>
+</ol>
+
+
+  <a class="boton boton_siguiente" href="ejemplo04.html"> Vamos al siguiente ejemplo: ejemplo04.html</a>
+
+  <a class="boton boton_inicio" href="index.html"> Volvemos al inicio</a>
+</main>
+
+  </body>
+</html>

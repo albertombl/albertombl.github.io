@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Primeros pasos con Javascript</title>
+
+<!-- Vamos a meter un script, es decir, un programa en el head, para que lo ejecute nada más entrar en la página sin hacer nosotros nada-->
+<link rel="stylesheet" href="estilo.css">
+
+<script type="text/javascript" src="pide_nombre.js"> </script>
+
+  </head>
+
+  <body>
+    <header>
+      <h1>Empezamos a movernos. De la web estática a la dinámica
+      </h1>
+      <h2 class="importante">Recoger un dato por teclado y visualizarlo</h2>
+    </header>
+<main>
+
+   <p>Ya sabemos crear un script o programa que, con una sola instrucción (la función <code>alert()</code>), muestre un texto cualquiera en el momento de carga de la página web que creamos.</p>
+   <p>En este ejemplo, el navegado nos ha pedido nuestro nombre, después ha operado con él y nos ha saludado de manera personalizada, esto es el inicio de la WEB2.0.
+   </p>
+   <p>
+  En el programa, que se ha escrito siguiendo el procedimiento anterior, se debe definir una <strong>variable</strong> a la que llamaremos "nombre". En esa variable almacenarmos el nombre de la persona, pidiendo por pantalla esa información. Para ello usaremos la función <code>prompt()</code> que necesita que le pasemos dos <strong>atributos</strong>.
+     </p>
+     <div class="codigo">
+       <xmp>
+         var nombre;
+         nombre=prompt("Escribe tu nombre","Nombre");
+         alert("Hola " + nombre + ".\nEspero que veas el potencial de esta herramienta.\n¿Sabes quien soy?");
+         alert("Soy TICO y tu profesor me ha programado.")
+       </xmp>
+
+     </div>
+
+     <h2>Ejercicio 2. Adquisición y retorno de datos.</h2>
+     <ol>
+       <li>Abre el archivo pide_nombre.js y mira, en los comnetarios que he dejado, cómo lo hacemos. El programa está ampliamente comentado. Más adelante, tendrás que hacerlo tú mismo.</li>
+       <li>Incluye, al final del archivo, comentarios describiendo los puntos que se pide que comentes con el profesor</li>
+       <li>Incluye, en el Head del index.html que habías creado en el ejercicio anterior, este nuevo script para que se ejecute después</li>
+       <li>Finalmente, sube los archivos al campus virtual en una carpeta comprimida llamada <strong>tu_nombre_ejercicio_2.zip</strong></li>
+     </ol>
+
+
+     <p>
+        <br><br>
+     </p>
+
+
+
+   <a class="boton boton_siguiente" href="ejemplo03.html"> Vamos al siguiente ejemplo: ejemplo03.html</a>
+
+  <a class="boton boton_inicio" href="index.html"> Volvemos al inicio</a>
+</main>
+
+  </body>
+</html>

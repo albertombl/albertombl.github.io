@@ -1,0 +1,45 @@
+<!doctype html>
+
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+
+  <title>Ejemplos p5.js</title>
+  <meta name="Clases" content="TIC II">
+  <meta name="AMB" content="SitePoint">
+
+  <link rel="stylesheet" href="estilo.css">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.14/p5.js"></script>
+
+</head>
+
+<body>
+
+<h1>Página TICII IES Doctor Fleming</h1>
+<h2>Programando animaciones con Javascript</h2>
+<div id="sketch-div"></div>
+    
+<script>
+
+function setup(){
+var canvas = createCanvas(200, 200);
+canvas.parent('sketch-div');
+background(255,123,122);
+}
+			
+function draw(){
+fill(random(255),random(255),random(255),50);
+ellipse(random(width),random(height), width/100, width/100);
+
+
+}
+function mouseMoved(){
+   ellipse(mouseX,mouseY,width/10,width/10);
+}
+function mousePressed(){
+    background(255,123,122);
+}
+
+</script>
+</body>
+</html>

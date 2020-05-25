@@ -1,0 +1,85 @@
+body{
+  background-color: lightgrey;
+  font-family:sans-serif,arial;
+}
+header{
+  margin:0px;
+  background-color: darkgrey;
+  font-size: 100%;
+  font-family: arial;
+  font-weight: 100;
+}
+
+.importante{
+color:darkred;
+font-style:bold;
+animation-name: parpadeo;
+animation-duration: 3s;
+animation-iteration-count: 10;
+font-weight: bold;
+}
+
+@keyframes parpadeo{
+0%   {color:lightgrey}
+100% {color:black}
+
+}
+
+.boton{
+  color:white;
+  border-radius: 10px;
+  border-color:white;
+  border-style: solid;
+  background-color: black;
+  text-decoration: none;
+  text-align: center;
+}
+
+.boton_inicio{
+  margin-top: 100px;
+  width:150px;
+  margin-left: auto;
+  margin-right: auto;
+  padding:20px;
+  top:100px;
+}
+
+.boton_siguiente{
+  width:200px;
+  margin:5px;
+  margin-top: 50px;
+    padding:5px;
+  top:0px;
+}
+
+a{
+  display: block;
+  color:white;
+  text-decoration: none;
+}
+
+main{
+  margin: 20px;
+}
+
+.codigo{
+  background-color: #ffbf80
+}
+code,xmp {
+    background-color: #ffbf80;
+    border-radius: 3px;
+    font-family: courier, monospace;
+    padding: 0px 3px;
+    margin-left: 10px;
+}
+
+.clickMe{
+  border-radius: 6px;
+  padding: 5px;
+  background-color: grey;
+  color: white;
+}
+.clickMe:hover{
+  background-color: white;
+  color:black;
+}

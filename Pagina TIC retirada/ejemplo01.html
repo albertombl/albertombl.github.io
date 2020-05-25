@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Primeros pasos con Javascript</title>
+
+<!-- Vamos a meter un script, es decir, un programa en el head, para que lo ejecute nada más entrar en la página sin hacer nosotros nada-->
+<link rel="stylesheet" href="estilo.css">
+<script type="text/javascript" src="alerta.js"> </script>
+
+  </head>
+
+  <body>
+    <header>
+      <h1>Empezamos a movernos</h1>
+      <h2 class="importante"> De la web estática a la dinámica</h2>
+    </header>
+  <p>Como se había comentado, al entrar en esta página nos ha salido otro mensaje que se programó de la misma manera, con una sola instrucción que lanza una ventana de alerta. Sin embargo, en lugar de ubicarse en el HEAD del documento, el programa se ha escrito en un archivo auxiliar. Esto es lo que hacíamos con las hojas de estilo, ya que, al incorporar mucho código, si lo introducimos en el HTML, perdemos claridad y estructura. En definitiva, el programa o script lo hemos sacado fuera de la página WEB y lo enlazaremos a ella de la misma manera que enlazábamos hojas de estilo. Usando:</p>
+  <xmp><script type="text/javascript" src="alerta.js"> </script></xmp>
+
+  <p>Donde script quiere decir que es un programa, type="text/javascript" que está escrito en ese lenguaje y src="alerta.js" el nombre del archivo con su extensión.</p>
+  <p><strong>IMPORTANTE:</strong> para escribir un programa de Javascript, Python o C++, no necesitaremos más que un editor de textos y renombrar la extensión a las correspondientes a cada lenguaje: Javascript (.js), Python (.py), C++ (.c) </p>
+
+  <p>
+  Cuando tenemos programas con códigos muy largos o APIS remotas (librerías con scripts alojados en el servidor de algún proveedor WEB), siempre se hace de esta manera. De aquí en adelante, sólo emplearemos este método
+  </p>
+
+  <p>Nuestro HEAD (cabecera del HTML) quedaría entonces como: </p>
+
+<div class="codigo">
+
+  <xmp><!DOCTYPE html>
+    <html lang="en" dir="ltr">
+      <head>
+        <meta charset="utf-8">
+        <title>Primeros pasos con Javascript</title>
+
+    <!-- Vamos a meter un script, es decir, un programa en el head,
+     para que lo ejecute nada más entrar en la página sin hacer nosotros nada-->
+    <link rel="stylesheet" href="estilo.css">
+    <script type="text/javascript" src="alerta.js"> </script>
+
+      </head></xmp>
+</div>
+
+<div class="ejercicio">
+
+</div>
+<h2>Ejercicio 1. Creación de una alerta inical en una página web sencilla</h2>
+<ol>
+  <li>Crea una página Web con su index.html y su hoja de estilo .css</li>
+  <li>Incluye en el HEAD del documento index.html un link a un archivo tipo <code>script</code></li>
+  <li>Ahora debemos crear el programa. crea un documento <strong>alerta.js</strong> con un editor de código o de texto. A través de la función <code>alert()</code>, intenta que genere un mensaje inicial de la página en el que se escriba: "Hola Mundo". Si no sabes, inténtalo con tu profesor. El programa y el documento html debe estar comentado, explicando lo que hemos aprendido hasta aquí.</li>
+  <li>Finalmente, sube los archivos al campus virtual en una carpeta comprimida llamada <strong>tu_nombre_ejercicio_1.zip</strong></li>
+</ol>
+
+
+  <a class="boton boton_siguiente" href="ejemplo02.html"> Vamos al siguiente ejemplo: ejemplo02.html</a>
+
+  <a class="boton boton_inicio" href="index.html"> Volvemos al inicio</a>
+
+
+  </body>
+</html>

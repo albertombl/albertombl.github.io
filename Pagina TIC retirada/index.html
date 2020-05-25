@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Primeros pasos con Javascript</title>
+<link rel="stylesheet" href="estilo.css">
+
+<!-- Vamos a meter un script, es decir, un programa en el head, para que lo ejecute nada más entrar en la página sin hacer nosotros nada-->
+
+<script languaje="Javascript">
+  /*
+  Este texto está dentro del programa que creamos. Por lo tanto le hemos puesto la doble barra inclinada ya que es la forma de hacer comentarios en línea en Javascript y así no se ejecutará. Para hacer comentarios para varias líneas usamos el mismo tipo de símbolo que en CSS, ¿lo recuerdas?
+  */
+  alert("¡Hola Pepe, Ainhoa, Pablo^2, Raul y Luis!");
+</script>
+
+  </head>
+
+  <body>
+    <header>
+      <h1>Empezamos a movernos. De la web estática a la dinámica</h1>
+      <h2 class="importante">Empleo de Javascript para interacción con cliente y browser</h2>
+    </header>
+
+    <p>
+    Al acceder a esta página Web ha aparecido un mensaje de bienvenida. Podríamos pensar que se trata de una etiqueta más de html a la que le hemos aplicado algún estilo con CSS, pero no es así. Se trata de un pequeño script (programa) que, escrito en un lenguaje interpretado (Javascript) contiene una única instrucción cuya misión es lanzar en pantalla una cadena de caracteres o string. Esa instrucción es la siguiente:
+    </p>
+    <code>
+      alert("¡Hola Pepe, Ainhoa, Pablo^2, Raul y Luis!");
+    </code>
+    <p>
+    Si nos fijamos en el código del scrip, tan sencillo como una única línea, podemos ver que <code>alert()</code> es una función que se ha creado para que el navegador lance un pequeña ventana donde se mostrará los caracteres que se incluyan entre los paréntesis. Como se había visto en la programación por bloques, las funciones, también llamadas métodos, son pequeños programas que ejecutan nuevas instrucciones. Así, en los juegos de bloques existían las funciones: <code>moveforward()</code> ,que hacía que el personaje avanzara en el laberinto, o la función <code>noworm()</code> , que permitía saber si el pájaro tenía consigo el gusano con el que alimentar a sus polluelos.
+    </p>
+    <p>
+      La diferencia es que muchas funciones como, <code>alert()</code> requieren de uno o más atributos dentro del paréntesis. Para el caso que estamos tratando, sería la cadena de caracteres que se presentarán en pantalla. Toma nota: <strong> Los textos en los lenguajes de programación se llaman cadenas de caracteres o strings (del inglés cadena)</strong>. En la mayoría de lenguajes de programación cuando tenemos que escribir una cadena de caracteres estos se escriben entre comillas <code>"ejemplo de una cadena"</code>
+    </p>
+    <p>Ahora bien, sabiendo cual es el programa o script (que como hemos visto se limita a una sola instrucción), cuál es la manera en la que introducimos scripts (recordar que los script son programas que en este caso escribimos en lenguaje Javascript) será empleando dos metodologías:
+    </p>
+    <p>
+    La primera de ellas es la empleada en este index.html :
+    </p>
+
+<div class="codigo">
+<xmp>
+  <!DOCTYPE html>
+  <html lang="en" dir="ltr">
+    <head>
+      <meta charset="utf-8">
+      <title>Primeros pasos con Javascript</title>
+  <link rel="stylesheet" href="estilo.css">
+
+  <!-- Vamos a meter un script, es decir, un programa en el head,
+   para que lo ejecute nada más entrar en la página sin hacer nosotros nada-->
+
+  <script languaje="Javascript">
+    /*
+    Este texto está dentro del programa que creamos. Por lo tanto, le hemos
+    puesto la barra y el asterisco ya que es la forma de hacer comentarios
+    en línea en Javascript y así no se ejecutará. Para hacer comentarios
+    para varias líneas usamos el mismo tipo de símbolo que en CSS,
+    ¿lo recuerdas?
+    */
+    alert("¡Hola Pepe, Ainhoa, Pablo^2, Raul y Luis!");
+  </script>
+
+    </head>
+
+</xmp>
+</div>
+
+<p>En el siguiente ejemplo veremos que al acceder obtenemos el mismo mensaje. Haz click más abajo</p>
+
+  <a class="boton boton_siguiente" href="ejemplo01.html"> Vamos al siguiente ejemplo: ejemplo01.html</a>
+
+  <a class="boton boton_inicio" href="index.html"> Volvemos al inicio</a>
+
+
+  </body>
+</html>
