@@ -1,0 +1,98 @@
+*{
+  margin: 0px;
+  padding: 0px;
+  font-family: "JetBrains Mono",monospace;
+}
+
+body{
+  background-color: rgb(196,182,159);
+  background-color: rgb(250, 234, 209);
+  background-image: ;
+  back;
+}
+
+#fijo{
+  position: static;
+}
+
+
+header{
+  /*margin: 5%;*/
+  padding: 0 0 0 5%;
+  background-color: #756f59;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-gap: 10%;
+  align-items:center;
+  
+}
+header h1{
+  color:rgb(250, 234, 209);
+ 
+}
+
+header img{
+  position: sticky;
+}
+
+#mono:hover{
+  position: relative;
+  left:80px;
+  z-index:1000 ;
+}
+#platano:hover + #mono{
+  position: relative;
+  left:80px;
+  z-index:1000 ;
+}
+
+
+section{
+  padding-left: 20px;
+  margin-top: 50px;
+}
+
+article ul{
+  padding-left: 60px;
+}
+.button {
+ display: inline-block;
+text-decoration: none;
+
+}
+
+header ul {  
+list-style-type: none;  
+font-weight: bold;  
+font-size: 1rem;  
+}
+
+
+a{
+ text-decoration:none;
+ color:#cc0000;
+}
+
+/*a.button,div.container{
+ float:left;
+}
+*/
+
+a.button{
+ background-color:rgb(152,102,59);
+ border:1px solid rgb(99,62,40) /*marron oscuro*/;
+ border-radius:5px;
+ color:rgb(250, 234, 209);
+ padding:5px;
+ margin-right:10px;
+ 
+}
+
+
+
+rgb(250, 234, 209)  /*claro*/
+#756f59   /*verde claro*/
+rgb(152,102,59) /*verde bastante oscuro*/
+rgb(99,62,40) /*marron oscuro*/
+rgb(40,39,30) /*negro*/
+

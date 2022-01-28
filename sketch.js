@@ -1,29 +1,26 @@
-// Where is the circle
-let x, y;
+
+
+let ps;
 
 function setup() {
   createCanvas(windowWidth,windowHeight);
-  // Starts in the middle
-  x = width / 2;
-  y = height;
+  ps = new ParticleSystem(createVector(width / 2, 50));
 }
 
 function draw() {
-  background(200);
-  
-  // Draw a circle
-  stroke(50);
-  fill(100);
-  ellipse(x, y, 24, 24);
-  
-  // Jiggling randomly on the horizontal axis
-  x = x + random(-1, 1);
-  // Moving up at a constant speed
-  y = y - 1;
-  
-  // Reset to the bottom
-  if (y < 0) {
-    y = height;
-  }
+  background(250, 234, 209);
+
+  // Option #1 (move the Particle System origin)
+  ps.origin.set(mouseX, mouseY, 0);
+
+  ps.addParticle();
+  ps.run();
+
+  // Option #2 (move the Particle System origin)
+  // ps.addParticle(mouseX, mouseY);
+
+
+
 }
+
 
