@@ -27,29 +27,53 @@ header{
   
 }
 header h1{
+  font-family: cursive;
+  font-weight: 800;
+  font-size: 2rem;
   color:rgb(250, 234, 209);
- 
 }
 
+header a{
+  font-size: 1.5rem;
+}
 header img{
   position: sticky;
 }
+header{
+  
+  background-image: url("https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/styles/1200/public/media/image/2021/01/selva-amazonica-2185541.jpg?itok=a_7d5gvC");
+  background-position: center;
+  background-size: cover;
+}
 
-#mono:hover{
+#mono-platano:hover #mono{
+  position: relative;
+  left:110px;
+  z-index:1000 ;
+}
+
+#rico{
+  position: absolute;
+  top: 80px;
+  left:-800px;
+}
+
+#mono-platano:hover #rico{
+  position: absolute;
+  left:250px;
+  z-index:1000 ;
+}
+
+/*#platano:hover + #mono{
   position: relative;
   left:80px;
   z-index:1000 ;
 }
-#platano:hover + #mono{
-  position: relative;
-  left:80px;
-  z-index:1000 ;
-}
-
+*/
 
 section{
   padding-left: 20px;
-  margin-top: 50px;
+  margin-bottom: 100px;
 }
 
 article ul{
