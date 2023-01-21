@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="windows-1252">
+  <title>Calculadora de méritos</title>
+  <style>
+	div.bloque {
+		background-color: white;
+		color: black;
+		margin: 20px 40px 20px 40px;
+		padding: 40px;
+	}
+	div.anexo {
+		background-color: white;
+		color: black;
+		margin: 20px 0 20px 0;
+		padding: 20px;
+	} 
+	</style>
+</head>
+
+<body style="background-color:#D2E9FF;">
+
+<h1></h1>
+
+<h1>Calculadora de baremo para las oposiciones:</h1>
+
+<script>
+//document.getElementById("demo").innerHTML = z;
+
+var v11 = 0;
+var v12 = 0;
+var v13 = 0;
+var v14 = 0;
+var v21 = 0;
+var v221 = 0;
+var v222 = 0;
+var v223 = 0;
+var v231 = 0;
+var v232 = 0;
+var v241 = 0;
+var v242 = 0;
+var v243 = 0;
+var v244 = 0;
+var v245 = 0;
+var v31 = 0;
+var v32 = 0;
+var v33 = 0;
+
+function accion() {
+    // DSM
+	
+	var resultadoA = 0;
+	var resultadoB = 0;
+	var resultadoC = 0;
+	var resultadoF = 0;
+	v11 = document.getElementById("vaa").value;
+	v12 = document.getElementById("vab").value;
+	v13 = document.getElementById("vac").value;
+	v14 = document.getElementById("vad").value;
+	v21 = document.getElementById("vba").value;
+	v221 = document.getElementById("vbba").value;
+	v222 = document.getElementById("vbbb").value;
+	v223 = document.getElementById("vbbc").value;
+	v231 = document.getElementById("vbca").value;
+	v232 = document.getElementById("vbcb").value;
+	v241 = document.getElementById("vbda").value;
+	v242 = document.getElementById("vbdb").value;
+	v243 = document.getElementById("vbdc").value;
+	v244 = document.getElementById("vbdd").value;
+	v245 = document.getElementById("vbde").value;
+	v31 = document.getElementById("vca").value;
+	v32 = document.getElementById("vcb").value;
+	v33= document.getElementById("vcc").value;
+	resultadoA = v11*0.0583+v12*0.0292+v13*0.0125+v14*0.0083;
+	resultadoB = v221*1+v222*1+v223*0.500+v231*1+v232*1+v241*0.5+v242*0.5+v243*0.2+v244*0.2+v245*0.2;
+	resultadoC = v31*0.5+((v32*0.04)/20);
+	
+	if (resultadoA > 7){
+		resultadoA = 7;
+	}
+	if (v21 > 0){
+		resultadoB = resultadoB+1.5;
+	}
+	if (resultadoB > 5){
+		resultadoB = 5;
+	}
+	if (v33 > 0){
+		if (v33 > 1){
+			resultadoC = resultadoC+1;
+		} else {
+			resultadoC = resultadoC+v33;
+		}
+	}
+	if (resultadoC > 2){
+		resultadoC = 2;
+	}
+	resultadoF = resultadoA+resultadoB+resultadoC;
+	
+	if (resultadoF > 10){
+		resultadoF = 10;
+	}
+	
+	document.getElementById('resultado').innerHTML = "Conseguirías hasta " +resultadoF+" puntos, con "+resultadoA+" puntos en el apartado 1, "+resultadoB+" puntos en el apartado 2 y "+resultadoC+" en el apartado 3";
+
+
+}
+
+</script>
+
+
+
+<form name="f" onsubmit="return validateForm()" method="post">
+<h2>Introduce las cantidades indicadas</h2>
+<!-- DSM -->
+<div class="bloque">
+<h3>Apartado I</h3>
+<p>1.1 Por cada año de experiencia docente en especialidades del cuerpo al que se opta (centros públicos): <input type="number" id="vaa" value=0> (meses)</p>
+<p>1.2 Por cada año de experiencia docente en especialidades de distintos cuerpos al que se opta (centros públicos): <input type="number" id="vab" value=0> (meses)</p>
+<p>1.3 Por cada año de experiencia docente en especialidades del mismo nivel o etapa educativa que el impartido por el cuerpo al que se opta (otros centros): <input type="number" id="vac" value=0> (meses)</p>
+<p>1.4 Por cada año de experiencia docente en especialidades de distinto nivel o etapa educativo que el impartido por el cuerpo al que se opta (otros centros): <input type="number" id="vad" value=0> (meses)</p>
+</div>
+<div class="bloque">
+<h3>Apartado II</h3>
+<p>2.1 Expediente Académico en el título alegando, siempre que el título corresponda con el exigido para el ingreso en el cuerpo: <input type="number" id="vba" value=0> (suma hasta 1.5 puntos, esta aplicación solo da una estimación)</p>
+<p>2.2 Posgrados, doctorados y premios extraordinarios: </p>
+<p>2.2.1 Certificado diploma de estudios avanzados, Título Oficial Máster, Suficiencia Investigadora, cualquier otro título equivalente: <input type="number" id="vbba" value=0> (cada uno)</p>
+<p>2.2.2 Título de Doctor: <input type="number" id="vbbb" value=0> (cada uno)</p>
+<p>2.2.3 Premio extraordinario Doctorado: <input type="number" id="vbbc" value=0> (cada uno)</p>
+<p>2.3 Titulaciones Universitarias: </p>
+<p>2.3.1 Titulaciones de 1º ciclo: Diplomatura, Ingeniería Técnica, Arquitectura Técnica o títulos equivalentes y por estudios correspondientes el primer ciclo de una Licenciatura, Arquitectura o Ingeniería: <input type="number" id="vbca" value=0> (cada uno)</p>
+<p>2.3.2 Titulaciones de 2º ciclo: Segundo ciclo de licenciaturas, Ingenieerías, Arquitecturas o títulos equivalentes: <input type="number" id="vbcb" value=0> (cada uno)</p>
+<p>2.4 Titulaciones de enseñanzas de régimen especial y formación profesional específica:</p>
+<p>2.4.1 Título profesional de Música o Danza: <input type="number" id="vbda" value=0> (cada uno)</p>
+<p>2.4.2 Certificado nivel avanzado o equivalente de EOI: <input type="number" id="vbdb" value=0> (cada uno)</p>
+<p>2.4.3 Título de Técnico Superior de Artes Plásticas y Diseño: <input type="number" id="vbdc" value=0> (cada uno)</p>
+<p>2.4.4 Título Técnico Superior de F.P.: <input type="number" id="vbdd" value=0> (cada uno)</p>
+<p>2.4.5 Título de Técnico Deportivo Superior: <input type="number" id="vbde" value=0> (cada uno)</p>
+</div>
+<div class="bloque">
+<h3>Apartado III</h3>
+<p>3.1 Certificado de lenguas extrangeras Nivel B2 o superior expedido por centros oficiales: <input type="number" id="vca" value=0> (cada certificado)</p>
+<p>3.2 Cursos homologados o certificados relacionados con la especialidad al a que se opta o con la organización escolar: <input type="number" id="vcb" value=0> (introducir horas)</p>
+<p>3.3 Publicaciones de carácter didáctico y científico directamente relacionadas con aspectos generales del currículo: <input type="number" id="vcc" value=0> (suma hasta 1 punto, esta aplicación solo da una estimación)</p>
+</div>
+
+<center><input type="button" name="Botón" value="Calcular la puntuación aproximada" onclick = "accion()" style="font-size:24px;center;"></center>
+
+</form>
+<div class="bloque">
+<p id="resultado" style="font-size:24px;color:red;"><b></b></p>
+</div>
+
+</body>
+</html>
