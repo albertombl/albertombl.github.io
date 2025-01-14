@@ -8,7 +8,7 @@
 		<meta name="description" content="A website about cool stuff.">
 		<meta name="keywords"
 			content="TyD, Digitalización, Secundaria, Bachillerato, ESO">
-		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="estilo.css">
 		<link rel="icon" href="favicon.png">
 
 		<script src="https://replit.com/public/js/repl-auth-v2.js"></script>
@@ -16,15 +16,37 @@
 		<script type="module" src="https://md-block.verou.me/md-block.js"></script>
 	</head>
 	<body>
+
+		<div class="header"></div>
+			<h1>Página AMBL</h1>
+			<h2>Un sitio web sobre cosas tecnológicas de secundaria y bachillerato</h2>
+		</div>
+		<style>
+			.header {
+				text-align: center;
+				padding: 20px;
+				background-color: #9db3b9;
+				border-bottom: 2px solid #ccc;
+				margin: 0;
+			}
+			.header h1 {
+				margin: 0;
+				font-size: 2.5em;
+				color: #333;
+			}
+			.header h2 {
+				margin: 0;
+				font-size: 1.5em;
+				color: #666;
+			}
+		</style>
 		
-		<ul>
+		<ul class="lista_sin_estilo">
 			<li><a href="/s1dia.html" target="_blank">S1DIA DIGITALIZACIÓN APLICADA 1 ESO</a></li>
 			<li><a href="/s2tyd.html" target="_blank">S2TYD TECNOLOGÍA Y DIGITALIZACIÓN 2ESO</a></li>
 			<li><a href="/s3tyd.html" target="_blank">S3TYD TECNOLOGÍA Y DIGITALIZACIÓN 3ESO</a></li>
 			<li><a href="/s4digi.html" target="_blank">S4DIGI DIGITALIZACIÓN 4ESO</a></li>
 			<li><a href="/b1tdai.html" target="_blank">B1TDAI TECNOLOGÍAS DIGITALES APLICADAS 1 BACH</a></li>
-
-
 		</ul>
 
 			
@@ -32,6 +54,36 @@
 		<md-block>
 			Este es un bloque para escribir directamente en Markdown. Puedes usarlo para escribir contenido en Markdown y	ver cómo se renderiza en tiempo real. ¡Pruébalo!
 		</md-block>	
-	
+	<footer>
+		<div class="footer-content">
+			<p>&copy; 2023 Página AMBL. Todos los derechos reservados.</p>
+			<p>Contacto: <a href="mailto:info@paginaambl.com">info@paginaambl.com</a></p>
+			<p>
+				Síguenos en:
+				<a href="https://twitter.com/paginaambl" target="_blank">Twitter</a> |
+				<a href="https://facebook.com/paginaambl" target="_blank">Facebook</a> |
+				<a href="https://instagram.com/paginaambl" target="_blank">Instagram</a>
+			</p>
+		</div>
+		<style>
+			footer {
+				background-color: #333;
+				color: #fff;
+				text-align: center;
+				padding: 20px;
+				position: fixed;
+				width: 100%;
+				bottom: 0;
+				left: 0;
+			}
+			.footer-content a {
+				color: #9db3b9;
+				text-decoration: none;
+			}
+			.footer-content a:hover {
+				text-decoration: underline;
+			}
+		</style>
+	</footer>
 	</body>
 </html>
