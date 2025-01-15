@@ -1,8 +1,37 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
 body{
 	background-color: #abc6db;
 	font-family: Arial, sans-serif;
 	color:rgb(29, 50, 51)
 }
+
+			.header {
+				margin: 0;
+				padding: 0;
+			}
+		
+		.header {
+				text-align: center;
+				padding: 20px;
+				background-color: #9db3b9;
+				border-bottom: 2px solid #ccc;
+				margin: 0;
+			}
+			.header h1 {
+				margin: 0;
+				font-size: 2.5em;
+				color: #333;
+			}
+			.header h2 {
+				margin: 0;
+				font-size: 1.5em;
+				color: #666;
+			}
+		
 
 .lista_sin_estilo {
 	list-style: none;
@@ -37,3 +66,6 @@ a{
 .lista_sin_estilo li {
 	margin-bottom: 20px; /* Add space between buttons */
 }
+
+
+  
