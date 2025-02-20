@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Verificar Edad</title>
+	<script>
+		function verificarEdad() {
+			var edad = prompt("Por favor, ingresa tu edad:");
+			if (edad !== null) {
+				if (parseInt(edad) >= 18) {
+					alert("Eres mayor de edad.");
+				} else {
+					alert("Eres menor de edad.");
+				}
+			}
+		}
+
+		function verificarFallos() {
+			var fallos = prompt("Por favor, ingresa el número de fallos:");
+			if (fallos !== null) {
+				if (parseInt(fallos) > 3) {
+					alert("No apto.");
+				} else {
+					alert("Apto.");
+				}
+			}
+		}
+		function adivinarAnimal() {
+			var animal = prompt("Selecciona un animal: perro, loro, vaca");
+			if (animal !== null) {
+				var tienePlumas = prompt("¿Tiene plumas? (sí/no)").toLowerCase() === "sí";
+				var tieneCuernos = prompt("¿Tiene cuernos? (sí/no)").toLowerCase() === "sí";
+				if (tienePlumas) {
+					alert("Has seleccionado un loro.");
+				} else if (tieneCuernos) {
+					alert("Has seleccionado una vaca.");
+				} else {
+					alert("Has seleccionado un perro.");
+				}
+			}
+		}
+	</script>
+</head>
+<body>
+	<h1>Verificación de Edad</h1>
+	<button onclick="verificarEdad()">Verificar Edad</button>
+	<h1>Verificación de Fallos</h1>
+	<button onclick="verificarFallos()">Verificar Fallos</button>
+	<h1>Adivinar Animal</h1>
+	<button onclick="adivinarAnimal()">Adivinar Animal</button>
+</body>
+</html>

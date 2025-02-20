@@ -9,7 +9,7 @@ body{
 	color:rgb(29, 50, 51)
 }
 
-			.header {
+		.header {
 				margin: 0;
 				padding: 0;
 			}
@@ -35,13 +35,13 @@ body{
 
 .lista_sin_estilo {
 	list-style: none;
-	padding: 10;
-	margin: 10;
+	padding: 0;
+	margin: 0;
 }
 
 li {
-	padding: 10;
-	margin: 10;	
+	padding: 0;
+	margin: 0;	
 }
 
 a{
@@ -51,12 +51,12 @@ a{
 
 .lista_sin_estilo a {
 	display: inline-block;
-	padding: 15px 30px;
+	padding: 5px 5px;
 	background-color: #1482db;
 	color: white;
 	border-radius: 5px;
 	text-align: center;
-	margin: 10px;
+	margin: 0px;
 }
 
 .lista_sin_estilo a:hover {
