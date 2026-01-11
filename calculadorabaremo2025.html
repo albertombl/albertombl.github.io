@@ -1,428 +1,428 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-	<meta charset="utf-8">
-	<title>Calculadora de méritos</title>
-	<style>
-		body {
-			font-family: 'Arial', sans-serif;
-			background-color: #f0f4f8;
-			color: #333;
-			margin: 0;
-			padding: 0;
-		}
-		h1, h2, h3 {
-			color: #0056b3;
-		}
-		div.bloque {
-			background-color: #fff;
-			color: #333;
-			margin: 20px auto;
-			padding: 20px;
-			border-radius: 8px;
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-			max-width: 800px;
-		}
-		input[type="number"] {
-			width: 60px;
-			padding: 5px;
-			margin-left: 10px;
-			border: 1px solid #ccc;
-			border-radius: 4px;
-		}
-		input[type="button"] {
-			background-color: #0056b3;
-			color: white;
-			border: none;
-			padding: 10px 20px;
-			border-radius: 4px;
-			cursor: pointer;
-			font-size: 18px;
-		}
-		input[type="button"]:hover {
-			background-color: #004494;
-		}
-		p {
-			font-size: 16px;
-			line-height: 1.5;
-		}
-		p#resultado {
-			font-size: 24px;
-			color: red;
-			text-align: center;
-		}
-	</style>
+  <meta charset="utf-8" />
+  <title>Calculadora de méritos (Asturias 2025) – Secundaria (Tecnología / Informática)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4f8;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    h1, h2, h3 { color: #0056b3; }
+    div.bloque {
+      background-color: #fff;
+      color: #333;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      max-width: 900px;
+    }
+    input[type="number"] {
+      width: 80px;
+      padding: 6px;
+      margin-left: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    input[type="button"] {
+      background-color: #0056b3;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 18px;
+      display: block;
+      margin: 10px auto 0;
+    }
+    input[type="button"]:hover { background-color: #004494; }
+    p { font-size: 16px; line-height: 1.5; }
+    #resultado {
+      font-size: 22px;
+      color: #b30000;
+      text-align: center;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    #resumen {
+      font-size: 15px;
+      line-height: 1.6;
+      background: #f8fafc;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #e5e7eb;
+    }
+    .nota {
+      font-size: 14px;
+      color: #444;
+      background: #eef6ff;
+      border-left: 4px solid #0056b3;
+      padding: 10px 12px;
+      border-radius: 6px;
+    }
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 800px) {
+      .grid2 { grid-template-columns: 1fr; }
+      input[type="number"] { width: 90px; }
+    }
+    .mini { font-size: 13px; color: #666; }
+    .ok { color: #0a7a2f; font-weight: bold; }
+    .warn { color: #b45309; font-weight: bold; }
+    .muted { color: #666; }
+    .hr { height: 1px; background: #e5e7eb; margin: 12px 0; }
+  </style>
 </head>
 
 <body>
+  <h1 style="max-width: 900px; margin: 20px auto 0; padding: 0 20px;">
+    Calculadora de baremo (fase concurso) – Oposiciones Secundaria Asturias 2025<br>
+    <span class="mini">Versión enfocada a Secundaria (Tecnología / Informática). Máximo total: 10 puntos.</span>
+  </h1>
 
-<h1>Calculadora de baremo para las oposiciones de Secundaria en Asturias para la convocatoria de 2025:</h1>
+  <div class="bloque">
+    <h2>Notas importantes (para que no haya errores)</h2>
+    <ul>
+      <li><strong>Apartado I (Experiencia docente):</strong> máximo <strong>5</strong> puntos.</li>
+      <li><strong>Apartado II (Formación académica):</strong> máximo <strong>5</strong> puntos.</li>
+      <li><strong>Apartado III (Otros méritos):</strong> máximo <strong>2</strong> puntos. Dentro, la <strong>formación permanente (3.2)</strong> tiene máximo <strong>1,5</strong>.</li>
+      <li><strong>Competencia Digital Docente (3.1):</strong> solo cuenta el <strong>nivel más alto</strong> (A1/A2/B1/B2/C1/C2), no se suman niveles.</li>
+      <li class="warn">Esta calculadora <strong>NO incluye el apartado 3.6 “Méritos artísticos y deportivos”</strong> porque no aplica con carácter general a 0590 (Tecnología/Informática). Si la necesitas para Música/Artes Escénicas, dímelo y la adapto.</li>
+    </ul>
+  </div>
 
-<div class="bloque">
-	<h2>Notas sobre los Cambios en el Baremo</h2>
-	<p>En esta convocatoria, se han realizado los siguientes cambios en el baremo de méritos:</p>
-	<ul>
-	  <li><strong>Apartado I: Experiencia Docente</strong>
-		<ul>
-		  <li>El máximo de puntos en este apartado es ahora de 5 puntos (anteriormente 7 puntos).</li>
-		  <li>Se han ajustado las puntuaciones por cada año de experiencia docente.</li>
-		</ul>
-	  </li>
-	  <li><strong>Apartado II: Formación Académica</strong>
-		<ul>
-		  <li>El máximo de puntos en este apartado es ahora de 5 puntos.</li>
-		  <li>Se ha añadido un campo para seleccionar la escala del expediente académico (0 a 10 o 0 a 4).</li>
-		  <li>Se han ajustado las puntuaciones para cada tipo de formación académica.</li>
-		</ul>
-	  </li>
-	  <li><strong>Apartado III: Otros Méritos</strong>
-		<ul>
-		  <li>El máximo de puntos en este apartado es ahora de 2 puntos.</li>
-		  <li>El máximo de puntos para actividades de formación (apartado 3.2) es de 1.5 puntos.</li>
-		  <li>El máximo de puntos para méritos artísticos y deportivos (apartado 3.6) es de 1 punto.</li>
-		  <li>Se han añadido nuevos campos para premio final de carrera, oposiciones aprobadas, lengua asturiana y méritos artísticos y deportivos.</li>
-		</ul>
-	  </li>
-	</ul>
-</div>	
+  <form name="f" onsubmit="accion(); return false;" method="post">
 
-<form name="f" onsubmit="accion(); return false;" method="post">
-<h2>Introduce las cantidades indicadas</h2>
-<div class="bloque">
-<h3>Apartado I</h3>
-<p>1.1 Por cada año de experiencia docente en especialidades del cuerpo al que se opta (centros públicos): 
-	<input type="number" id="vaa" value=0> (años) 
-	<input type="number" id="vaa_meses" value=0> (meses)
-</p>
-<p>1.2 Por cada año de experiencia docente en especialidades de distintos cuerpos al que se opta (centros públicos): 
-	<input type="number" id="vab" value=0> (años) 
-	<input type="number" id="vab_meses" value=0> (meses)
-</p>
-<p>1.3 Por cada año de experiencia docente en especialidades del mismo nivel o etapa educativa que el impartido por el cuerpo al que se opta (otros centros): 
-	<input type="number" id="vac" value=0> (años) 
-	<input type="number" id="vac_meses" value=0> (meses)
-</p>
-<p>1.4 Por cada año de experiencia docente en especialidades de distinto nivel o etapa educativa que el impartido por el cuerpo al que se opta (otros centros): 
-	<input type="number" id="vad" value=0> (años) 
-	<input type="number" id="vad_meses" value=0> (meses)
-</p>
-</div>
-<div class="bloque">
-<h3>Apartado II</h3>
-<p>2.1 Expediente Académico en el título alegando, siempre que el título corresponda con el exigido para el ingreso en el cuerpo: 
-	<input type="number" id="vba" value=0> (suma hasta 1.5 puntos, esta aplicación solo da una estimación)
-</p>
-<p>Escala del expediente académico: 
-	<input type="radio" id="escala10" name="escalaExpediente" value="escala10" checked> 0 a 10
-	<input type="radio" id="escala4" name="escalaExpediente" value="escala4"> 0 a 4
-</p>
-<p>2.2 Posgrados, doctorados y premios extraordinarios: </p>
-<p>2.2.1 Certificado diploma de estudios avanzados, Título Oficial Máster, Suficiencia Investigadora, cualquier otro título equivalente: 
-	<input type="number" id="vbba" value=0> (cada uno)
-</p>
-<p>2.2.2 Título de Doctor: 
-	<input type="number" id="vbbb" value=0> (cada uno)
-</p>
-<p>2.2.3 Premio extraordinario Doctorado: 
-	<input type="number" id="vbbc" value=0> (cada uno)
-</p>
-<p>2.3 Titulaciones Universitarias: </p>
-<p>2.3.1 Titulaciones de 1º ciclo: Diplomatura, Ingeniería Técnica, Arquitectura Técnica o títulos equivalentes y por estudios correspondientes el primer ciclo de una Licenciatura, Arquitectura o Ingeniería: 
-	<input type="number" id="vbca" value=0> (cada uno)
-</p>
-<p>2.3.2 Titulaciones de 2º ciclo: Segundo ciclo de licenciaturas, Ingenieerías, Arquitecturas o títulos equivalentes: 
-	<input type="number" id="vbcb" value=0> (cada uno)
-</p>
-<p>2.4 Titulaciones de enseñanzas de régimen especial y formación profesional específica:</p>
-<p>2.4.1 Título profesional de Música o Danza: 
-	<input type="number" id="vbda" value=0> (cada uno)
-</p>
-<p>2.4.2 Certificado nivel avanzado o equivalente de EOI: 
-	<input type="number" id="vbdb" value=0> (cada uno)
-</p>
-<p>2.4.3 Título de Técnico Superior de Artes Plásticas y Diseño: 
-	<input type="number" id="vbdc" value=0> (cada uno)
-</p>
-<p>2.4.4 Título Técnico Superior de F.P.: 
-	<input type="number" id="vbdd" value=0> (cada uno)
-</p>
-<p>2.4.5 Título de Técnico Deportivo Superior: 
-	<input type="number" id="vbde" value=0> (cada uno)
-</p>
-<p>2.5 Dominio de idiomas extranjeros (C1): 
-	<input type="number" id="vbfa" value=0> (cada uno)
-</p>
-</div>
-<div class="bloque">
-<h3>Apartado III</h3>
-<p>3.1 Competencia Digital Docente: 
-	<select id="vca">
-		<option value="0">Selecciona el nivel</option>
-		<option value="A1">A1</option>
-		<option value="A2">A2</option>
-		<option value="B1">B1</option>
-		<option value="B2">B2</option>
-		<option value="C1">C1</option>
-		<option value="C2">C2</option>
-	</select>
-</p>
-<p>3.2 Cursos homologados o certificados relacionados con la especialidad al a que se opta o con la organización escolar:
-	<input type="number" id="vcb" value=0> (introducir horas)
-</p>
-<p>3.3 Premio final de carrera 
-	<input type="number" id="vcc" value=0> (suma hasta 1 punto, esta aplicación solo da una estimación)
-</p>
-<p>3.4 Oposiciones aprobadas 
-	<input type="number" id="vcd" value=0> (cada uno)
-</p>
-<p>3.5 Lengua Asturiana
-	<input type="number" id="vce" value=0> (cada una)
-</p>
-<p>3.6 Méritos artísticos y deportivos:</p>
-<p>3.6.1 Premios en exposiciones internacionales: 
-	<input type="number" id="vch" value=0> (cada uno)
-</p>
-<p>3.6.2 Premios en exposiciones nacionales: 
-	<input type="number" id="vci" value=0> (cada uno)
-</p>
-<p>3.6.3 Premios en exposiciones autonómicas: 
-	<input type="number" id="vcj" value=0> (cada uno)
-</p>
-<p>3.6.4 Espectáculos teatrales o circenses: 
-	<input type="number" id="vck" value=0> (cada uno)
-</p>
-<p>3.6.5 Actuación en conciertos: 
-	<input type="number" id="vcl" value=0> (cada uno)
-</p>
-<p>3.6.6 Exposiciones individuales o colectivas:</p>
-<p>3.6.6.1 Exposiciones individuales: 
-	<input type="number" id="vcm" value=0> (cada una)
-</p>
-<p>3.6.6.2 Exposiciones colectivas: 
-	<input type="number" id="vcn" value=0> (cada una)
-</p>
-<p>3.6.7 Restaurador de bienes culturales:</p>
-<p>3.6.7.1 Restaurador de bienes culturales (categoría 1): 
-	<input type="number" id="vco" value=0> (cada uno)
-</p>
-<p>3.6.7.2 Restaurador de bienes culturales (categoría 2): 
-	<input type="number" id="vcp" value=0> (cada uno)
-</p>
-<p>3.6.7.3 Restaurador de bienes culturales (categoría 3): 
-	<input type="number" id="vcq" value=0> (cada uno)
-</p>
-<p>3.6.8 Condición de deportista de alto nivel: 
-	<input type="number" id="vcr" value=0> (cada uno)
-</p>
-<p>3.6.9 Deportista de alto rendimiento: 
-	<input type="number" id="vcs" value=0> (cada uno)
-</p>
-</div>
+    <h2 style="max-width: 900px; margin: 0 auto; padding: 0 20px;">Introduce las cantidades</h2>
 
-<input type="button" name="Botón" value="Calcular la puntuación aproximada" onclick="accion()" class="calcular-btn">
+    <div class="bloque">
+      <h3>Apartado I – Experiencia docente (máx. 5 puntos)</h3>
 
-<h2>Resultados cálculos</h2>
-<h3 id="resultado"></h3>
+      <div class="nota">
+        <strong>Consejo:</strong> pon meses entre <strong>0 y 11</strong>. Si metes 12 o más, la calculadora los convertirá automáticamente a años + meses.
+      </div>
 
+      <p>1.1 Centros públicos, <strong>misma especialidad y cuerpo</strong>:
+        <input type="number" id="vaa" value="0" min="0" step="1"> (años)
+        <input type="number" id="vaa_meses" value="0" min="0" step="1"> (meses)
+      </p>
 
+      <p>1.2 Centros públicos, <strong>distintos cuerpos</strong>:
+        <input type="number" id="vab" value="0" min="0" step="1"> (años)
+        <input type="number" id="vab_meses" value="0" min="0" step="1"> (meses)
+      </p>
 
-<h2> Resumen de los datos introducidos, revísalo</h2>
-<p id="resumen"></p>
+      <p>1.3 Otros centros, <strong>mismo nivel/etapa</strong>:
+        <input type="number" id="vac" value="0" min="0" step="1"> (años)
+        <input type="number" id="vac_meses" value="0" min="0" step="1"> (meses)
+      </p>
 
-<script>
-var v11 = 0;
-var v11_meses = 0;
-var v12 = 0;
-var v12_meses = 0;
-var v13 = 0;
-var v13_meses = 0;
-var v14 = 0;
-var v14_meses = 0;
-var v21 = 0;
-var v221 = 0;
-var v222 = 0;
-var v223 = 0;
-var v231 = 0;
-var v232 = 0;
-var v241 = 0;
-var v242 = 0;
-var v243 = 0;
-var v244 = 0;
-var v245 = 0;
-var v25 = 0; // Nuevo apartado para dominio de idiomas extranjeros
-var v31 = 0;
-var v32 = 0;
-var v33 = 0;
-var v34 = 0; 
-var v35 = 0; 
-var v36 = 0; // Méritos artísticos y deportivos 
-var v361 = 0; // premios exposiciones
-var v3611 = 0;
-var v3612 = 0;
-var v3613 = 0;
-var v362 = 0; // Espectáculos teatrales o circenses
-var v363 = 0; // Actuación en conciertos
-var v364 = 0; // Exposiciones individuales o colectivas
-var v3641 = 0;
-var v3642 = 0;
-var v365 = 0; // Restaurador de bienes culturales
-var v3651 = 0;
-var v3652 = 0;
-var v3653 = 0;
-var v366 = 0; // Condición de deportista de alto nivel
-var v367 = 0; // Deportista de alto rendimiento
+      <p>1.4 Otros centros, <strong>distinto nivel/etapa</strong>:
+        <input type="number" id="vad" value="0" min="0" step="1"> (años)
+        <input type="number" id="vad_meses" value="0" min="0" step="1"> (meses)
+      </p>
+    </div>
 
-function accion() {
-    var resultadoA = 0;
-    var resultadoB = 0;
-    var resultadoC = 0;
-    var resultadoF = 0;
+    <div class="bloque">
+      <h3>Apartado II – Formación académica (máx. 5 puntos)</h3>
 
-    // Experiencia docente
-    v11 = parseInt(document.getElementById("vaa").value) * 1 + parseInt(document.getElementById("vaa_meses").value) * 0.0833;
-    v12 = parseInt(document.getElementById("vab").value) * 0.5 + parseInt(document.getElementById("vab_meses").value) * 0.04166;
-    v13 = parseInt(document.getElementById("vac").value) * 0.5 + parseInt(document.getElementById("vac_meses").value) * 0.04166;
-    v14 = parseInt(document.getElementById("vad").value) * 0.25 + parseInt(document.getElementById("vad_meses").value) * 0.0208;
+      <div class="grid2">
+        <div>
+          <p><strong>2.1 Expediente académico</strong> (introduce la <u>nota media</u>, no puntos):</p>
+          <p class="mini muted">
+            La calculadora aplica la tabla de 0–10 o 0–4 para asignar 0 / 1 / 1,5 puntos.
+          </p>
+          <p>
+            Nota media:
+            <input type="number" id="vba" value="0" min="0" step="0.01">
+          </p>
+          <p>
+            Escala:
+            <label><input type="radio" id="escala10" name="escalaExpediente" value="escala10" checked> 0 a 10</label>
+            &nbsp;&nbsp;
+            <label><input type="radio" id="escala4" name="escalaExpediente" value="escala4"> 0 a 4</label>
+          </p>
+        </div>
 
-    // Expediente académico
-    v21 = parseFloat(document.getElementById("vba").value);
-    var escalaExpedienteElement = document.querySelector('input[name="escalaExpediente"]:checked');
-    var escalaExpediente = escalaExpedienteElement ? escalaExpedienteElement.value : null;
+        <div class="nota">
+          <strong>Expediente (estimación automática):</strong><br>
+          <span class="mini">
+            • Escala 0–10: de 6,00 a 7,50 → 1 punto; &gt; 7,50 → 1,5 puntos<br>
+            • Escala 0–4: de 1,50 a 2,25 → 1 punto; &gt; 2,25 → 1,5 puntos
+          </span>
+        </div>
+      </div>
 
-    // Formación académica
-    v221 = parseInt(document.getElementById("vbba").value);
-    v222 = parseInt(document.getElementById("vbbb").value);
-    v223 = parseInt(document.getElementById("vbbc").value);
-    v231 = parseInt(document.getElementById("vbca").value);
-    v232 = parseInt(document.getElementById("vbcb").value);
-    v241 = parseInt(document.getElementById("vbda").value);
-    v242 = parseInt(document.getElementById("vbdb").value);
-    v243 = parseInt(document.getElementById("vbdc").value);
-    v244 = parseInt(document.getElementById("vbdd").value);
-    v245 = parseInt(document.getElementById("vbde").value);
-    v25 = parseInt(document.getElementById("vbfa").value);
+      <div class="hr"></div>
 
-    // Otros méritos
-    var equivalencias = {
-        "A1": 0.125,
-        "A2": 0.25,
-        "B1": 0.375,
-        "B2": 0.5,
-        "C1": 0.5,
-        "C2": 0.5
-    };
-    var nivel = document.getElementById("vca").value;
-    v31 = equivalencias[nivel] || 0;
-    v32 = parseInt(document.getElementById("vcb").value);
-    v33 = parseInt(document.getElementById("vcc").value);
-    v34 = parseInt(document.getElementById("vcd").value);
-    v35 = parseInt(document.getElementById("vce").value);
-	// v36 is already defined and calculated below
+      <p><strong>2.2 Postgrados, doctorado y premios:</strong></p>
+      <p>2.2.1 Máster oficial / DEA / Suficiencia investigadora (cada uno):
+        <input type="number" id="vbba" value="0" min="0" step="1">
+      </p>
+      <p>2.2.2 Doctorado (solo uno suele computar, pero lo dejamos como cantidad):
+        <input type="number" id="vbbb" value="0" min="0" step="1">
+      </p>
+      <p>2.2.3 Premio extraordinario de doctorado (cada uno):
+        <input type="number" id="vbbc" value="0" min="0" step="1">
+      </p>
 
-    v3611 = parseInt(document.getElementById("vch").value);
-    v3612 = parseInt(document.getElementById("vci").value);
-    v3613 = parseInt(document.getElementById("vcj").value);
+      <div class="hr"></div>
 
-    v362 = parseInt(document.getElementById("vck").value);
-    v363 = parseInt(document.getElementById("vcl").value);
-    v3641 = parseInt(document.getElementById("vcm").value);
-    v3642 = parseInt(document.getElementById("vcn").value);
+      <p><strong>2.3 Otras titulaciones universitarias oficiales:</strong></p>
+      <p>2.3.1 Primer ciclo (cada uno):
+        <input type="number" id="vbca" value="0" min="0" step="1">
+      </p>
+      <p>2.3.2 Segundo ciclo (cada uno):
+        <input type="number" id="vbcb" value="0" min="0" step="1">
+      </p>
 
-    v3651 = parseInt(document.getElementById("vco").value);
-    v3652 = parseInt(document.getElementById("vcp").value);
-    v3653 = parseInt(document.getElementById("vcq").value);
+      <div class="hr"></div>
 
-    v366 = parseInt(document.getElementById("vcr").value);
-    v367 = parseInt(document.getElementById("vcs").value);
+      <p><strong>2.4 Régimen especial / FP:</strong></p>
+      <p>2.4.1 Título profesional de Música o Danza (cada uno):
+        <input type="number" id="vbda" value="0" min="0" step="1">
+      </p>
+      <p>2.4.2 <strong>EOI nivel C1</strong> (cada uno):
+        <input type="number" id="vbdb" value="0" min="0" step="1">
+      </p>
+      <p>2.4.3 Técnico Superior de Artes Plásticas y Diseño (cada uno):
+        <input type="number" id="vbdc" value="0" min="0" step="1">
+      </p>
+      <p>2.4.4 Técnico Superior de FP (cada uno):
+        <input type="number" id="vbdd" value="0" min="0" step="1">
+      </p>
+      <p>2.4.5 Técnico Deportivo Superior (cada uno):
+        <input type="number" id="vbde" value="0" min="0" step="1">
+      </p>
 
-    // Cálculo de resultados
-    resultadoA = v11 + v12 + v13 + v14;
+      <div class="nota">
+        <strong>Nota:</strong> La normativa tiene reglas para evitar duplicidades (p.ej., títulos necesarios para obtener otro).
+        Esta calculadora <em>no</em> puede detectar automáticamente esos casos; revisa la documentación antes de presentar.
+      </div>
+    </div>
 
-	resultadoB = (v221 * 1) + (v222 * 1) + (v223 * 0.5) + (v231 * 1) + (v232 * 1) + (v241 * 0.5) + (v242 * 0.5) + (v243 * 0.2) + (v244 * 0.2) + (v245 * 0.2) + (v25 * 0.5);
+    <div class="bloque">
+      <h3>Apartado III – Otros méritos (máx. 2 puntos)</h3>
 
-    if (escalaExpediente === "escala10") {
-        if (v21 >= 6 && v21 <= 7.5) {
-            resultadoB += 1;
-        } else if (v21 > 7.5) {
-            resultadoB += 1.5;
+      <p><strong>3.1 Competencia Digital Docente</strong> (solo cuenta el nivel más alto):
+        <select id="vca">
+          <option value="0">Selecciona el nivel</option>
+          <option value="A1">A1</option>
+          <option value="A2">A2</option>
+          <option value="B1">B1</option>
+          <option value="B2">B2</option>
+          <option value="C1">C1</option>
+          <option value="C2">C2</option>
+        </select>
+      </p>
+
+      <p><strong>3.2 Formación permanente</strong> (introduce horas totales): 
+        <input type="number" id="vcb" value="0" min="0" step="1">
+        <span class="mini muted">(0,04 puntos por 20 horas; máximo 1,5 puntos)</span>
+      </p>
+
+      <p><strong>3.3 Premio extraordinario fin de carrera</strong> (cada uno): 
+        <input type="number" id="vcc" value="0" min="0" step="1">
+        <span class="mini muted">(0,5 puntos por premio)</span>
+      </p>
+
+      <p><strong>3.4 Oposiciones aprobadas</strong> (cada una): 
+        <input type="number" id="vcd" value="0" min="0" step="1">
+        <span class="mini muted">(0,25 por proceso)</span>
+      </p>
+
+      <p><strong>3.5 Lengua asturiana</strong> (cada una): 
+        <input type="number" id="vce" value="0" min="0" step="1">
+        <span class="mini muted">(0,5 puntos)</span>
+      </p>
+    </div>
+
+    <input type="button" value="Calcular la puntuación" onclick="accion()" class="calcular-btn">
+
+    <div class="bloque">
+      <h2>Resultados</h2>
+      <div id="resultado"></div>
+
+      <div class="hr"></div>
+
+      <h3>Resumen de datos introducidos</h3>
+      <div id="resumen"></div>
+    </div>
+
+    <script>
+      // ---------- Helpers ----------
+      const num = (id) => Number(document.getElementById(id).value) || 0;
+
+      function clamp(n, min, max) {
+        return Math.max(min, Math.min(max, n));
+      }
+
+      // Normaliza (años, meses) -> meses puede ser >=12. Devuelve {años, meses}.
+      function normalizeYearsMonths(years, months) {
+        years = Math.max(0, Math.floor(years));
+        months = Math.max(0, Math.floor(months));
+
+        if (months >= 12) {
+          years += Math.floor(months / 12);
+          months = months % 12;
         }
-    } else if (escalaExpediente === "escala4") {
-        if (v21 >= 1.5 && v21 <= 2.25) {
-            resultadoB += 1;
-        } else if (v21 > 2.25) {
-            resultadoB += 1.5;
+        return { years, months };
+      }
+
+      function accion() {
+        // ====== Apartado I (Experiencia) ======
+        let a11 = normalizeYearsMonths(num("vaa"), num("vaa_meses"));
+        let a12 = normalizeYearsMonths(num("vab"), num("vab_meses"));
+        let a13 = normalizeYearsMonths(num("vac"), num("vac_meses"));
+        let a14 = normalizeYearsMonths(num("vad"), num("vad_meses"));
+
+        // Coeficientes por mes ajustados con más precisión
+        const P11 = a11.years * 1.0 + a11.months * (1.0 / 12.0);     // 0,0833333333
+        const P12 = a12.years * 0.5 + a12.months * (0.5 / 12.0);     // 0,0416666667
+        const P13 = a13.years * 0.5 + a13.months * (0.5 / 12.0);
+        const P14 = a14.years * 0.25 + a14.months * (0.25 / 12.0);   // 0,0208333333
+
+        let resultadoA = P11 + P12 + P13 + P14;
+        resultadoA = Math.min(resultadoA, 5);
+
+        // ====== Apartado II (Formación académica) ======
+        // 2.1 Expediente (nota media)
+        const notaMedia = num("vba");
+        const escalaExpedienteEl = document.querySelector('input[name="escalaExpediente"]:checked');
+        const escala = escalaExpedienteEl ? escalaExpedienteEl.value : "escala10";
+
+        let puntosExpediente = 0;
+        if (escala === "escala10") {
+          if (notaMedia >= 6.0 && notaMedia <= 7.5) puntosExpediente = 1.0;
+          else if (notaMedia > 7.5) puntosExpediente = 1.5;
+        } else {
+          // escala 0–4
+          if (notaMedia >= 1.5 && notaMedia <= 2.25) puntosExpediente = 1.0;
+          else if (notaMedia > 2.25) puntosExpediente = 1.5;
         }
-    }
 
-    v36 = v3611 * 1 + v3612 * 0.5 + v3613 * 0.25 + v362 * 1 + v363 * 0.25 + v3641 * 0.25 + v3642 * 0.1 + v3651 * 0.2 + v3652 * 0.1 + v3653 * 0.05 + v366 * 1 + v367 * 0.5;
+        // 2.2
+        const v221 = Math.floor(num("vbba")); // máster/DEA
+        const v222 = Math.floor(num("vbbb")); // doctor
+        const v223 = Math.floor(num("vbbc")); // premio doc
 
-    resultadoC = v31 + ((v32 * 0.02) / 10) + (v33 * 0.5) + (v34 * 0.25) + (v35 * 0.5) + v36;
+        // 2.3
+        const v231 = Math.floor(num("vbca")); // 1º ciclo
+        const v232 = Math.floor(num("vbcb")); // 2º ciclo
 
-    if (resultadoA > 5) {
-        resultadoA = 5; // Nota: El máximo de experiencia docente es ahora de 5 puntos
-    }
-    if (resultadoB > 5) {
-        resultadoB = 5; // Nota: El máximo de formación académica es ahora de 5 puntos
-    }
-    if (resultadoC > 2) {
-        resultadoC = 2; // Nota: El máximo de otros méritos es ahora de dos puntos
-    }
+        // 2.4
+        const v241 = Math.floor(num("vbda")); // música/danza
+        const v242 = Math.floor(num("vbdb")); // EOI C1
+        const v243 = Math.floor(num("vbdc")); // artes plásticas sup
+        const v244 = Math.floor(num("vbdd")); // FP superior
+        const v245 = Math.floor(num("vbde")); // deportivo sup
 
-    resultadoF = resultadoA + resultadoB + resultadoC;
+        let resultadoB =
+          puntosExpediente +
+          (v221 * 1.0) +
+          (v222 * 1.0) +
+          (v223 * 0.5) +
+          (v231 * 1.0) +
+          (v232 * 1.0) +
+          (v241 * 0.5) +
+          (v242 * 0.5) +
+          (v243 * 0.2) +
+          (v244 * 0.2) +
+          (v245 * 0.2);
 
-    if (resultadoF > 10) {
-        resultadoF = 10; // Nota: El máximo total sigue siendo de diez puntos
-    }
+        resultadoB = Math.min(resultadoB, 5);
 
-    document.getElementById('resultado').innerHTML = "Conseguirías hasta " + resultadoF.toFixed(2) + " puntos con: <br> " + resultadoA + " puntos en el apartado 1 <br>" + resultadoB.toFixed(2) + " puntos en el apartado 2 <br> " + resultadoC.toFixed(2) + " en el apartado 3";
-	
+        // ====== Apartado III (Otros méritos) ======
+        const equivalenciasCDD = {
+          "A1": 0.125,
+          "A2": 0.25,
+          "B1": 0.375,
+          "B2": 0.5,
+          "C1": 0.5,
+          "C2": 0.5
+        };
+        const nivelCDD = document.getElementById("vca").value;
+        let puntosCDD = equivalenciasCDD[nivelCDD] || 0;
+        puntosCDD = Math.min(puntosCDD, 0.5);
 
-	var resumen = "";
+        // 3.2 Formación permanente (horas): 0,04 por 20h = 0,002 por hora
+        const horasFormacion = Math.floor(num("vcb"));
+        let puntosFormacion = horasFormacion * 0.002;
+        puntosFormacion = Math.min(puntosFormacion, 1.5);
 
-	if (v11 > 0) resumen += "1.1 Experiencia docente en especialidades del cuerpo al que se opta (centros públicos): " + v11.toFixed(2) + " años trabajados puntos<br>";
-	if (v11_meses > 0) resumen += "1.1 Experiencia docente en especialidades del cuerpo al que se opta (centros públicos): " + v11.toFixed(2) + " meses trabajados<br>";
-	if (v12 > 0) resumen += "1.2 Experiencia docente en especialidades de distintos cuerpos al que se opta (centros públicos): " + v12.toFixed(2) + " años trabajados<br>";
-	if (v12_meses > 0) resumen += "1.2 Experiencia docente en especialidades de distintos cuerpos al que se opta (centros públicos): " + v12.toFixed(2) + " meses trabajados<br>";
-	if (v13 > 0) resumen += "1.3 Experiencia docente en especialidades del mismo nivel o etapa educativa (otros centros): " + v13.toFixed(2) + " años trabajados<br>";
-	if (v13_meses > 0) resumen += "1.3 Experiencia docente en especialidades del mismo nivel o etapa educativa (otros centros): " + v13.toFixed(2) + " meses trabajados<br>";
-	if (v14 > 0) resumen += "1.4 Experiencia docente en especialidades de distinto nivel o etapa educativa (otros centros): " + v14.toFixed(2) + " años trabjados<br>";
-	if (v14_meses > 0) resumen += "1.4 Experiencia docente en especialidades de distinto nivel o etapa educativa (otros centros): " + v14.toFixed(2) + " meses trabjados<br>";
+        // 3.3 Premio fin carrera: 0,5
+        const premiosCarrera = Math.floor(num("vcc"));
+        let puntosPremioCarrera = premiosCarrera * 0.5;
 
-	if (v21 > 0) resumen += "2.1 Expediente Académico: " + v21.toFixed(2) + " nota del expediente académico<br>";
-	if (v221 > 0) resumen += "2.2.1 Certificado diploma de estudios avanzados, Título Oficial Máster, Suficiencia Investigadora: " + v221 + " <br>";
-	if (v222 > 0) resumen += "2.2.2 Título de Doctor: " + v222 + " <br>";
-	if (v223 > 0) resumen += "2.2.3 Premio extraordinario Doctorado: " + v223 + " <br>";
-	if (v231 > 0) resumen += "2.3.1 Titulaciones de 1º ciclo: " + v231 + " <br>";
-	if (v232 > 0) resumen += "2.3.2 Titulaciones de 2º ciclo: " + v232 + " <br>";
-	if (v241 > 0) resumen += "2.4.1 Título profesional de Música o Danza: " + v241 + " <br>";
-	if (v242 > 0) resumen += "2.4.2 Certificado nivel avanzado o equivalente de EOI: " + v242 + " <br>";
-	if (v243 > 0) resumen += "2.4.3 Título de Técnico Superior de Artes Plásticas y Diseño: " + v243 + " <br>";
-	if (v244 > 0) resumen += "2.4.4 Título Técnico Superior de F.P.: " + v244 + " <br>";
-	if (v245 > 0) resumen += "2.4.5 Título de Técnico Deportivo Superior: " + v245 + " <br>";
-	if (v25 > 0) resumen += "2.5 Dominio de idiomas extranjeros (C1): " + v25 + " <br>";
+        // 3.4 Oposiciones aprobadas: 0,25
+        const oposAprob = Math.floor(num("vcd"));
+        let puntosOpos = oposAprob * 0.25;
 
-	if (v31 > 0) resumen += "3.1 Competencia Digital Docente: " + v31.toFixed(2) + " <br>";
-	if (v32 > 0) resumen += "3.2 Cursos homologados o certificados relacionados con la especialidad: " + v32 + " horas<br>";
-	if (v33 > 0) resumen += "3.3 Premio final de carrera: " + v33 + " <br>";
-	if (v34 > 0) resumen += "3.4 Oposiciones aprobadas: " + v34 + " <br>";
-	if (v35 > 0) resumen += "3.5 Lengua Asturiana: " + v35 + " <br>";
-	if (v3611 > 0) resumen += "3.6.1 Premios en exposiciones internacionales: " + v3611 + " <br>";
-	if (v3612 > 0) resumen += "3.6.2 Premios en exposiciones nacionales: " + v3612 + " <br>";
-	if (v3613 > 0) resumen += "3.6.3 Premios en exposiciones autonómicas: " + v3613 + " <br>";
-	if (v362 > 0) resumen += "3.6.4 Espectáculos teatrales o circenses: " + v362 + " <br>";
-	if (v363 > 0) resumen += "3.6.5 Actuación en conciertos: " + v363 + " <br>";
-	if (v3641 > 0) resumen += "3.6.6.1 Exposiciones individuales: " + v3641 + " <br>";
-	if (v3642 > 0) resumen += "3.6.6.2 Exposiciones colectivas: " + v3642 + " <br>";
-	if (v3651 > 0) resumen += "3.6.7.1 Restaurador de bienes culturales (categoría 1): " + v3651 + " <br>";
-	if (v3652 > 0) resumen += "3.6.7.2 Restaurador de bienes culturales (categoría 2): " + v3652 + " <br>";
-	if (v3653 > 0) resumen += "3.6.7.3 Restaurador de bienes culturales (categoría 3): " + v3653 + " <br>";
-	if (v366 > 0) resumen += "3.6.8 Condición de deportista de alto nivel: " + v366 + " <br>";
-	if (v367 > 0) resumen += "3.6.9 Deportista de alto rendimiento: " + v367 + " <br>";
+        // 3.5 Lengua asturiana: 0,5
+        const lenguaAst = Math.floor(num("vce"));
+        let puntosAsturiano = lenguaAst * 0.5;
 
-	document.getElementById('resumen').innerHTML = resumen;
-}
-</script>
+        let resultadoC = puntosCDD + puntosFormacion + puntosPremioCarrera + puntosOpos + puntosAsturiano;
+        resultadoC = Math.min(resultadoC, 2);
 
+        // ====== Total ======
+        let resultadoF = resultadoA + resultadoB + resultadoC;
+        resultadoF = Math.min(resultadoF, 10);
+
+        // ====== Pintar resultados ======
+        const resHtml =
+          `Conseguirías <span class="ok">${resultadoF.toFixed(2)}</span> puntos (máx. 10) <br><br>` +
+          `<strong>Apartado I (Experiencia):</strong> ${resultadoA.toFixed(2)} / 5<br>` +
+          `<strong>Apartado II (Formación académica):</strong> ${resultadoB.toFixed(2)} / 5<br>` +
+          `<strong>Apartado III (Otros méritos):</strong> ${resultadoC.toFixed(2)} / 2`;
+
+        document.getElementById("resultado").innerHTML = resHtml;
+
+        // ====== Resumen ======
+        let resumen = "";
+
+        // Apartado I detalle
+        if (a11.years || a11.months) resumen += `<strong>1.1</strong> ${a11.years} años y ${a11.months} meses → ${P11.toFixed(2)} puntos<br>`;
+        if (a12.years || a12.months) resumen += `<strong>1.2</strong> ${a12.years} años y ${a12.months} meses → ${P12.toFixed(2)} puntos<br>`;
+        if (a13.years || a13.months) resumen += `<strong>1.3</strong> ${a13.years} años y ${a13.months} meses → ${P13.toFixed(2)} puntos<br>`;
+        if (a14.years || a14.months) resumen += `<strong>1.4</strong> ${a14.years} años y ${a14.months} meses → ${P14.toFixed(2)} puntos<br>`;
+
+        if (!resumen) resumen += `<span class="muted">No has introducido datos en el Apartado I.</span><br>`;
+
+        resumen += `<div class="hr"></div>`;
+
+        // Apartado II detalle
+        resumen += `<strong>2.1</strong> Nota media (${escala === "escala10" ? "0–10" : "0–4"}): ${notaMedia.toFixed(2)} → ${puntosExpediente.toFixed(2)} puntos<br>`;
+        if (v221) resumen += `<strong>2.2.1</strong> Máster/DEA: ${v221} → ${(v221 * 1.0).toFixed(2)} puntos<br>`;
+        if (v222) resumen += `<strong>2.2.2</strong> Doctorado: ${v222} → ${(v222 * 1.0).toFixed(2)} puntos<br>`;
+        if (v223) resumen += `<strong>2.2.3</strong> Premio doc.: ${v223} → ${(v223 * 0.5).toFixed(2)} puntos<br>`;
+        if (v231) resumen += `<strong>2.3.1</strong> 1º ciclo: ${v231} → ${(v231 * 1.0).toFixed(2)} puntos<br>`;
+        if (v232) resumen += `<strong>2.3.2</strong> 2º ciclo: ${v232} → ${(v232 * 1.0).toFixed(2)} puntos<br>`;
+        if (v241) resumen += `<strong>2.4.1</strong> Música/Danza: ${v241} → ${(v241 * 0.5).toFixed(2)} puntos<br>`;
+        if (v242) resumen += `<strong>2.4.2</strong> EOI C1: ${v242} → ${(v242 * 0.5).toFixed(2)} puntos<br>`;
+        if (v243) resumen += `<strong>2.4.3</strong> Artes plásticas sup.: ${v243} → ${(v243 * 0.2).toFixed(2)} puntos<br>`;
+        if (v244) resumen += `<strong>2.4.4</strong> FP sup.: ${v244} → ${(v244 * 0.2).toFixed(2)} puntos<br>`;
+        if (v245) resumen += `<strong>2.4.5</strong> Deportivo sup.: ${v245} → ${(v245 * 0.2).toFixed(2)} puntos<br>`;
+
+        resumen += `<div class="hr"></div>`;
+
+        // Apartado III detalle
+        resumen += `<strong>3.1</strong> CDD (${nivelCDD === "0" ? "sin seleccionar" : nivelCDD}): ${puntosCDD.toFixed(3)} puntos<br>`;
+        resumen += `<strong>3.2</strong> Formación permanente: ${horasFormacion} horas → ${puntosFormacion.toFixed(2)} puntos (máx. 1,50)<br>`;
+        if (premiosCarrera) resumen += `<strong>3.3</strong> Premio fin de carrera: ${premiosCarrera} → ${(premiosCarrera * 0.5).toFixed(2)} puntos<br>`;
+        if (oposAprob) resumen += `<strong>3.4</strong> Oposiciones aprobadas: ${oposAprob} → ${(oposAprob * 0.25).toFixed(2)} puntos<br>`;
+        if (lenguaAst) resumen += `<strong>3.5</strong> Lengua asturiana: ${lenguaAst} → ${(lenguaAst * 0.5).toFixed(2)} puntos<br>`;
+
+        document.getElementById("resumen").innerHTML = resumen;
+      }
+    </script>
+  </form>
 </body>
 </html>
