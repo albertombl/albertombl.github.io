@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fleximan — Algoritmia visual (p5.js)</title>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+  <style>
+    :root { --gap: 14px; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    header { padding: 12px 16px; border-bottom: 1px solid #ddd; }
+    main { padding: 14px 16px; display: grid; gap: var(--gap); }
+    .top { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); align-items: start; }
+    .panel { border: 1px solid #ddd; border-radius: 10px; padding: 12px; }
+    .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .small { font-size: 12px; color: #555; }
+    .status { font-size: 13px; color: #222; }
+    .error { color: #b00020; white-space: pre-wrap; font-size: 13px; }
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 13px;
+      line-height: 1.35;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      resize: vertical;
+      min-height: 240px;
+    }
+    button {
+      padding: 8px 12px;
+      border: 1px solid #bbb;
+      background: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover { background: #f4f4f4; }
+    code { background: #f4f4f4; padding: 2px 4px; border-radius: 5px; }
+    ul { margin: 8px 0 0 18px; }
+    @media (max-width: 980px) {
+      .top { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="row" style="justify-content:space-between;">
+      <clarify>
+        <div style="font-weight:700;">Fleximan — Algoritmia visual (p5.js)</div>
+        <div class="small">Modo “instantáneo”: no hay transición. Sin esperas, varios cambios parecen simultáneos.</div>
+      </clarify>
+      <div class="small">MI: 12→9→6 | MD: 12→3→6</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="top">
+      <div class="panel">
+        <div class="row" style="justify-content:space-between;">
+          <div style="font-weight:700;">Fleximan</div>
+          <div class="status" id="runStatus">Estado: listo</div>
+        </div>
+        <div id="canvasHost" style="margin-top:10px; display:flex; justify-content:center;"></div>
+        <div class="small" style="margin-top:10px;">
+          En el canvas se muestra el nombre de la instrucción ejecutada (mínimo 900 ms).
+        </div>
+      </div>
+
+      <div class="panel">
+        <div style="font-weight:700;">Editor del alumno</div>
+        <div class="small" style="margin-top:6px;">
+          “Cargar para paso a paso” no cambia nada en el muñeco. Los brazos solo aparecen cuando ejecutas (todo o paso).
+        </div>
+
+        <textarea id="editor" placeholder="Escribe aquí tu algoritmo..."></textarea>
+
+        <div class="row" style="margin-top:10px;">
+          <button id="btnRunAll">Ejecutar todo</button>
+          <button id="btnReset">Reiniciar</button>
+        </div>
+
+        <div class="row" style="margin-top:8px;">
+          <button id="btnLoad">Cargar para paso a paso</button>
+          <button id="btnStep">Paso</button>
+        </div>
+
+        <div class="small" style="margin-top:8px;">
+          Paso a paso: pulsa “Cargar…”, luego “Paso” repetidas veces.
+        </div>
+
+        <div id="errorBox" class="error" style="margin-top:10px;"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div style="font-weight:700;">Instrucciones que entiende</div>
+      <ul>
+        <li><code>subir_MI_cuartoVuelta()</code> ( sube la mano izquierda 1/4 de vuelta  45º desde la posición que esté. Si ya está arriba, no hace nada)</li>
+        <li><code>bajar_MI_cuartovuelta()</code> ( baja la mano izquierda 1/4 de vuelta  45º desde la posición que esté. Si ya está abajo, no hace nada</li>
+        <li><code>subir_MD_cuartoVuelta()</code> ( sube la mano derecha 1/4 de vuelta  45º desde la posición que esté. Si ya está arriba, no hace nada)</li>
+        <li><code>bajar_MD_cuartoVuelta()</code> ( baja la mano derecha 1/4 de vuelta  45º desde la posición que esté. Si ya está abajo, no hace nada</li>
+        <li><code>esperar_1_segundo()</code> (Hace que fleximan se pare en esa posición 1 segundo para verla)</li>
+        <li><code>brazosCruzados_esperar()</code> (Los brazos se van a la posición concreta en la que los dos están en horizontal y se espera un segundo)</li>
+        <li><code>brazosCaidos()</code> (Los brazos se van a la posición concreta en la que los dos están caídos)</li>
+        <li><code>repetir(n){ ... }</code> (Repite exactamente n veces las instrucciones que hay dentro del bloque)</li>
+      </ul>
+
+      <!--
+      Nota (comentada para que no salga en la web):
+      - Con la restricción MI {12,9,6} y MD {12,3,6}, el salto mínimo real es 90°. Se mantiene el modelo discreto.
+
+      Alternativas (comentadas para que no salga en la web):
+      - subir_izquierda(), bajar_izquierda(), subir_derecha(), bajar_derecha(), pausa_1s(), horizontal_y_pausa(), reposo()
+      -->
+    </section>
+  </main>
+
+  <script>
+    // MI: 0=12, 1=9, 2=6
+    // MD: 0=12, 1=3, 2=6
+    const MI_DEG = [270, 180, 90];
+    const MD_DEG = [270,   0, 90];
+
+    const state = {
+      miIndex: 2,
+      mdIndex: 2,
+      miDegVis: MI_DEG[2],
+      mdDegVis: MD_DEG[2],
+
+      queue: [],
+      currentAction: null,
+      actionStartMs: 0,
+      running: false,
+
+      showArms: false,
+
+      message: "listo",
+
+      instrLabel: "",
+      instrLabelUntilMs: 0,
+
+      stepQueue: [],
+      stepLoaded: false
+    };
+
+    const MIN_LABEL_MS = 900;
+
+    function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+    function degToRad(d) { return d * Math.PI / 180; }
+    function nowMs() { return performance.now(); }
+
+    function setInstrLabel(text, now) {
+      state.instrLabel = text;
+      state.instrLabelUntilMs = now + MIN_LABEL_MS;
+    }
+
+    function updateStatus() {
+      const s = document.getElementById("runStatus");
+      const q = state.queue.length;
+      const act = state.currentAction ? state.currentAction.type : "—";
+      s.textContent = `Estado: ${state.running ? "ejecutando" : "parado"} | acción: ${act} | cola: ${q} | ${state.message}`;
+    }
+
+    function resetPose() {
+      state.miIndex = 2; state.mdIndex = 2;
+      state.miDegVis = MI_DEG[2]; state.mdDegVis = MD_DEG[2];
+      state.queue = [];
+      state.currentAction = null;
+      state.running = false;
+      state.showArms = false;
+      state.message = "listo";
+
+      state.instrLabel = "";
+      state.instrLabelUntilMs = 0;
+
+      state.stepQueue = [];
+      state.stepLoaded = false;
+
+      updateStatus();
+    }
+
+    function applyPose(pose) {
+      state.miIndex = pose.toMiIndex;
+      state.mdIndex = pose.toMdIndex;
+      state.miDegVis = MI_DEG[state.miIndex];
+      state.mdDegVis = MD_DEG[state.mdIndex];
+    }
+
+    function stepEngine(now) {
+      if (!state.running) return;
+
+      while (true) {
+        if (!state.currentAction) {
+          if (state.queue.length === 0) {
+            state.running = false;
+            state.message = "fin";
+            updateStatus();
+            return;
+          }
+          state.currentAction = state.queue.shift();
+          state.actionStartMs = now;
+
+          if (state.currentAction.label) setInstrLabel(state.currentAction.label, now);
+
+          updateStatus();
+        }
+
+        const a = state.currentAction;
+
+        if (a.type === "pose") {
+          applyPose(a);
+          state.currentAction = null;
+          continue;
+        }
+
+        if (a.type === "wait") {
+          const t = (now - state.actionStartMs) / a.durationMs;
+          if (t >= 1) {
+            state.currentAction = null;
+            continue;
+          }
+          break;
+        }
+
+        state.currentAction = null;
+      }
+    }
+
+    const ALLOWED_CALLS = new Set([
+      "subir_MI_cuartoVuelta",
+      "bajar_MI_cuartovuelta",
+      "subir_MD_cuartoVuelta",
+      "bajar_MD_cuartoVuelta",
+      "esperar_1_segundo",
+      "brazosCruzados_esperar",
+      "brazosCaidos",
+      "repetir", // (solo para detectar error si alguien intenta llamar repetir() como función)
+      "subirMI_cuartovuelta",
+      "bajarMI_cuartovuelta",
+      "subirMD_cuartovuelta",
+      "bajarMD_cuartovuelta",
+      "brazosCruzadosyesperar"
+    ]);
+
+    function tokenizeLines(text) {
+      return text
+        .split("\n")
+        .map(line => line.replace(/\/\/.*$/g, "").trim())
+        .filter(line => line.length > 0);
+    }
+
+    function parseProgram(text) {
+      const lines = tokenizeLines(text);
+      let i = 0;
+
+      function parseBlock() {
+        const stmts = [];
+        while (i < lines.length) {
+          const line = lines[i];
+
+          if (line === "}") { i++; break; }
+
+          const rep = line.match(/^repetir\s*\(\s*(\d+)\s*\)\s*\{\s*$/i);
+          if (rep) {
+            const n = parseInt(rep[1], 10);
+            if (!Number.isFinite(n) || n < 0 || n > 1000) {
+              throw new Error("repetir(n): n debe ser un entero entre 0 y 1000");
+            }
+            i++;
+            const inner = parseBlock();
+            stmts.push({ type: "repeat", n, inner });
+            continue;
+          }
+
+          const call = line.match(/^([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)\s*;?\s*$/);
+          if (call) {
+            const name = call[1];
+            if (!ALLOWED_CALLS.has(name)) throw new Error("Función no permitida: " + name);
+            if (name === "repetir") throw new Error("Usa repetir(n){ ... } (no repetir() )");
+            stmts.push({ type: "call", name });
+            i++;
+            continue;
+          }
+
+          throw new Error("Línea no válida: " + line);
+        }
+        return stmts;
+      }
+
+      const ast = parseBlock();
+      if (i < lines.length) throw new Error("Error de estructura: revisa llaves { }");
+      return ast;
+    }
+
+    function buildQueueFromAst(ast, intoArray) {
+      const out = intoArray || [];
+      const push = (a) => out.push(a);
+
+      let planMI = state.miIndex;
+      let planMD = state.mdIndex;
+
+      function pushPose(newMI, newMD, label) {
+        newMI = clamp(newMI, 0, 2);
+        newMD = clamp(newMD, 0, 2);
+        push({ type: "pose", toMiIndex: newMI, toMdIndex: newMD, label });
+        planMI = newMI; planMD = newMD;
+      }
+
+      function pushWait(ms, label) { push({ type: "wait", durationMs: ms, label }); }
+
+      function subirMI(label) { (planMI === 0) ? pushPose(planMI, planMD, label) : pushPose(planMI - 1, planMD, label); }
+      function bajarMI(label) { (planMI === 2) ? pushPose(planMI, planMD, label) : pushPose(planMI + 1, planMD, label); }
+      function subirMD(label) { (planMD === 0) ? pushPose(planMI, planMD, label) : pushPose(planMI, planMD - 1, label); }
+      function bajarMD(label) { (planMD === 2) ? pushPose(planMI, planMD, label) : pushPose(planMI, planMD + 1, label); }
+
+      function emit(node) {
+        if (node.type === "call") {
+          const n = node.name;
+
+          if (n === "subir_MI_cuartoVuelta") subirMI("subir_MI_cuartoVuelta()");
+          else if (n === "bajar_MI_cuartovuelta") bajarMI("bajar_MI_cuartovuelta()");
+          else if (n === "subir_MD_cuartoVuelta") subirMD("subir_MD_cuartoVuelta()");
+          else if (n === "bajar_MD_cuartoVuelta") bajarMD("bajar_MD_cuartoVuelta()");
+          else if (n === "esperar_1_segundo") pushWait(1000, "esperar_1_segundo()");
+          else if (n === "brazosCaidos") pushPose(2, 2, "brazosCaidos()");
+          else if (n === "brazosCruzados_esperar") { pushPose(1, 1, "brazosCruzados_esperar()"); pushWait(1000, "esperar_1_segundo()"); }
+
+          // compatibilidad antigua
+          else if (n === "subirMI_cuartovuelta") subirMI("subirMI_cuartovuelta()");
+          else if (n === "bajarMI_cuartovuelta") bajarMI("bajarMI_cuartovuelta()");
+          else if (n === "subirMD_cuartovuelta") subirMD("subirMD_cuartovuelta()");
+          else if (n === "bajarMD_cuartovuelta") bajarMD("bajarMD_cuartovuelta()");
+          else if (n === "brazosCruzadosyesperar") { pushPose(1, 1, "brazosCruzadosyesperar()"); pushWait(1000, "esperar_1_segundo()"); }
+
+          else throw new Error("Función no implementada: " + n);
+
+          return;
+        }
+
+        if (node.type === "repeat") {
+          for (let k = 0; k < node.n; k++) {
+            for (const innerNode of node.inner) emit(innerNode);
+          }
+          return;
+        }
+
+        throw new Error("Nodo desconocido en AST");
+      }
+
+      for (const n of ast) emit(n);
+      return out;
+    }
+
+    document.getElementById("editor").value = "";
+
+    const errorBox = document.getElementById("errorBox");
+    function setError(msg) { errorBox.textContent = msg || ""; }
+
+    function loadFromEditor() {
+      const code = document.getElementById("editor").value;
+      const ast = parseProgram(code);
+      return buildQueueFromAst(ast, []);
+    }
+
+    document.getElementById("btnRunAll").addEventListener("click", () => {
+      setError("");
+      try {
+        if (state.currentAction) throw new Error("Ejecución en curso. Reinicia para empezar de nuevo.");
+
+        state.showArms = true;
+
+        const actions = loadFromEditor();
+        state.queue = actions;
+        state.currentAction = null;
+
+        if (state.queue.length === 0) {
+          state.message = "no hay acciones";
+          updateStatus();
+          return;
+        }
+
+        state.running = true;
+        state.message = "ok";
+        updateStatus();
+      } catch (e) {
+        setError(String(e.message || e));
+        state.running = false;
+        state.queue = [];
+        state.currentAction = null;
+        state.message = "error";
+        updateStatus();
+      }
+    });
+
+    document.getElementById("btnReset").addEventListener("click", () => {
+      setError("");
+      resetPose();
+    });
+
+    document.getElementById("btnLoad").addEventListener("click", () => {
+      setError("");
+      try {
+        if (state.running || state.currentAction) throw new Error("Reinicia antes de cargar paso a paso.");
+
+        const actions = loadFromEditor();
+        state.stepQueue = actions;
+        state.stepLoaded = true;
+
+        state.message = `paso a paso cargado (${state.stepQueue.length} acciones)`;
+        updateStatus();
+      } catch (e) {
+        setError(String(e.message || e));
+        state.stepQueue = [];
+        state.stepLoaded = false;
+        state.message = "error";
+        updateStatus();
+      }
+    });
+
+    document.getElementById("btnStep").addEventListener("click", () => {
+      setError("");
+      try {
+        if (!state.stepLoaded) throw new Error("Primero pulsa “Cargar para paso a paso”.");
+        if (state.running || state.currentAction) throw new Error("Reinicia si estabas ejecutando todo.");
+
+        state.showArms = true;
+
+        if (state.stepQueue.length === 0) {
+          state.message = "fin (paso a paso)";
+          updateStatus();
+          return;
+        }
+
+        const a = state.stepQueue.shift();
+        const now = nowMs();
+        if (a.label) setInstrLabel(a.label, now);
+
+        if (a.type === "pose") {
+          applyPose(a);
+          state.message = "paso (pose)";
+          updateStatus();
+          return;
+        }
+
+        if (a.type === "wait") {
+          state.queue = [a];
+          state.currentAction = null;
+          state.running = true;
+          state.message = "paso (espera)";
+          updateStatus();
+          return;
+        }
+
+        state.message = "paso (desconocido)";
+        updateStatus();
+      } catch (e) {
+        setError(String(e.message || e));
+      }
+    });
+
+    const sketch = (p) => {
+      const w = 520, h = 520;
+
+      const GREEN_STROKE = p.color(115, 170, 120);
+      const GREEN_FILL   = p.color(210, 235, 215);
+      const BLUE_HAND    = p.color(0, 150, 220);
+      const MAG_HAND     = p.color(190, 0, 160);
+
+      p.setup = () => {
+        const cnv = p.createCanvas(w, h);
+        cnv.parent("canvasHost");
+        p.frameRate(60);
+        resetPose();
+      };
+
+      p.draw = () => {
+        p.background(255);
+
+        const now = nowMs();
+        stepEngine(now);
+
+        if (state.running && !state.currentAction && state.queue.length === 0 && state.message.startsWith("paso (espera)")) {
+          state.running = false;
+          state.message = "paso (espera) completado";
+          updateStatus();
+        }
+
+        if (state.instrLabel && (now <= state.instrLabelUntilMs)) {
+          p.noStroke();
+          p.fill(20);
+          p.textSize(16);
+          p.textAlign(p.CENTER, p.CENTER);
+          p.text(state.instrLabel, w * 0.48, 34);
+        }
+
+        const cx = w * 0.48;
+        const cy = h * 0.26;
+        drawFleximanLike(p, cx, cy, state.miDegVis, state.mdDegVis, state.showArms);
+
+        if (state.instrLabel && now > state.instrLabelUntilMs) state.instrLabel = "";
+      };
+
+      function drawFleximanLike(p, x, y, miDeg, mdDeg, showArms) {
+        const headW = 58;
+        const headH = 72;
+        const neckL = 14;
+
+        const shoulderW = 70;
+        const torsoTopY = y + headH/2 + neckL + 8;
+
+        const armL = 70;
+        const handR = 14;
+
+        const hipY = torsoTopY + 70;
+
+        const legL = 95;
+        const footSize = 12;
+
+        // Cabeza
+        p.stroke(GREEN_STROKE);
+        p.strokeWeight(5);
+        p.fill(GREEN_FILL);
+        p.ellipse(x, y, headW, headH);
+
+        // Cuello
+        p.noFill();
+        p.strokeWeight(6);
+        p.line(x, y + headH/2, x, y + headH/2 + neckL);
+
+        // CUERPO: SOLO TRIÁNGULO (sin líneas extra) + texto "ESPALDA"
+        const lx = x - shoulderW/2;
+        const rx = x + shoulderW/2;
+        const bodyBottomY = torsoTopY + 95;
+
+        p.stroke(GREEN_STROKE);
+        p.strokeWeight(6);
+        p.fill(GREEN_FILL);
+        p.beginShape();
+        p.vertex(lx, torsoTopY);
+        p.vertex(rx, torsoTopY);
+        p.vertex(x, bodyBottomY);
+        p.endShape(p.CLOSE);
+
+        // Texto dentro
+        p.noStroke();
+        p.fill(40);
+        p.textSize(14);
+        p.textAlign(p.CENTER, p.CENTER);
+        p.text("ESPALDA", x, torsoTopY + 42);
+
+        // Piernas en X
+        p.stroke(GREEN_STROKE);
+        p.strokeWeight(6);
+        const legStartL = { x: x + 6, y: hipY + 4 };
+        const legStartR = { x: x - 6, y: hipY + 4 };
+        const footL = { x: x - 42, y: hipY + legL };
+        const footRight = { x: x + 42, y: hipY + legL };
+
+        p.line(legStartL.x, legStartL.y, footL.x, footL.y);
+        p.line(legStartR.x, legStartR.y, footRight.x, footRight.y);
+
+        // Pies
+        p.noStroke();
+        p.fill(BLUE_HAND);
+        p.ellipse(footL.x, footL.y, footSize, footSize);
+        p.fill(MAG_HAND);
+        p.ellipse(footRight.x, footRight.y, footSize, footSize);
+
+        if (!showArms) return;
+
+        // Brazos
+        const lsx = lx, lsy = torsoTopY;
+        const rsx = rx, rsy = torsoTopY;
+
+        const miRad = degToRad(miDeg);
+        const mdRad = degToRad(mdDeg);
+
+        const lex = lsx + armL * Math.cos(miRad);
+        const ley = lsy + armL * Math.sin(miRad);
+
+        const rex = rsx + armL * Math.cos(mdRad);
+        const rey = rsy + armL * Math.sin(mdRad);
+
+        p.stroke(GREEN_STROKE);
+        p.strokeWeight(6);
+        p.line(lsx, lsy, lex, ley);
+        p.line(rsx, rsy, rex, rey);
+
+        // Manos
+        p.noStroke();
+        p.fill(BLUE_HAND);
+        p.ellipse(lex, ley, handR, handR);
+        p.fill(MAG_HAND);
+        p.ellipse(rex, rey, handR, handR);
+
+        // Etiquetas
+        p.fill(20);
+        p.textSize(12);
+        p.textAlign(p.CENTER, p.CENTER);
+        p.text("MI", lex, ley - 18);
+        p.text("MD", rex, rey - 18);
+      }
+    };
+
+    new p5(sketch);
+    updateStatus();
+  </script>
+</body>
+</html>
+
