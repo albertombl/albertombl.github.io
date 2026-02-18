@@ -80,17 +80,10 @@
           canvas.height = video.videoHeight;
         }
 
-        function drawDetections(detections) {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          ctx.lineWidth = 3;
-          ctx.font = "16px system-ui, Arial";
+       function drawDetections(detections) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
 
-          for (const d of detections) {
-            ctx.strokeRect(d.x, d.y, d.width, d.height);
-            const label = `${d.label} (${Math.round(d.confidence * 100)}%)`;
-            ctx.fillText(label, d.x + 6, Math.max(16, d.y + 16));
-          }
-        }
 
         function pickBest(detections) {
           if (!detections || detections.length === 0) return null;
