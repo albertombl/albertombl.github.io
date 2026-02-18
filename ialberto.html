@@ -1,155 +1,250 @@
 
-
-    <!doctype html>
+ <!doctype html>
     <html lang="es">
     <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      <title>ML5 02 · p5 + Dibujo</title>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width,initial-scale=1" />
+      <title>ML5 02 · Detección + Dibujo</title>
 
-      <!-- p5 -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
-
-      <!-- ml5 -->
+      <!-- ml5.js (versión fija para evitar cambios de API) -->
       <script src="https://unpkg.com/ml5@0.12.2/dist/ml5.min.js"></script>
+
+      <style>
+        body { font-family: system-ui, Arial, sans-serif; margin: 16px; }
+        #wrap { position: relative; width: min(720px, 100%); }
+        video, canvas { width: 100%; height: auto; border-radius: 10px; }
+        canvas { position: absolute; left: 0; top: 0; }
+        button { padding: 10px 12px; font-size: 14px; cursor: pointer; }
+        .row { display:flex; gap:12px; flex-wrap: wrap; align-items:center; margin-bottom: 10px; }
+        .badge { display:inline-block; border:1px solid #ccc; border-radius:999px; padding: 3px 10px; }
+      </style>
     </head>
 
     <body>
+      <h1>ML5 02 · Detección y dibujo por etiquetas</h1>
 
-    <h2>ML5 02 · Detección y dibujo con p5</h2>
-    <p> Sustituye este texto por una explicación detallada del funcionamiento del script. </p>
+      <div class="row">
+        <button id="btnStart">Iniciar cámara</button>
+        <span id="status" class="badge">Estado: esperando…</span>
+        <span id="best" class="badge">Mejor detección: —</span>
+      </div>
 
-    <script>
+      <div id="wrap">
+        <video id="video" autoplay playsinline muted></video>
+        <canvas id="overlay"></canvas>
+      </div>
 
-    let video;
-    let detector;
-    let detections = [];
+      <div>
+        <h3>Explicación de cómo funciona el código</h3>
 
-    const UMBRAL = 0.60;
+        <p>
+          Sustituye este texto por una explicación en varios párrafos.
+          Explica qué hace el script bloque a bloque: carga de librería, botón, cámara, modelo,
+          detección, elección de la mejor detección, cálculo de centro y escala, condicionales
+          para decidir qué dibujar y funciones de dibujo.
+        </p>
 
-    function setup() {
-      createCanvas(640, 480);
+        <p>
+          Cuanto mejor esté explicado (y más se note que lo entiendes), mejor será la nota.
+          Una explicación de un solo párrafo tendrá poca nota.
+        </p>
+      </div>
 
-      video = createCapture(VIDEO);
-      video.size(640, 480);
-      video.hide();
+      <script>
+        const btnStart = document.getElementById("btnStart");
+        const statusEl = document.getElementById("status");
+        const bestEl = document.getElementById("best");
 
-      detector = ml5.objectDetector("cocossd", modeloListo);
-    }
+        const video = document.getElementById("video");
+        const canvas = document.getElementById("overlay");
+        const ctx = canvas.getContext("2d");
 
-    function modeloListo() {
-      detector.detect(video, gotResults);
-    }
+        let detector = null;
+        let running = false;
 
-    function gotResults(error, results) {
-      if (error) {
-        console.log(error);
-        return;
-      }
+        const UMBRAL_CONF = 0.60;
 
-      detections = results;
-      detector.detect(video, gotResults);
-    }
+        function setStatus(t) { statusEl.textContent = "Estado: " + t; }
 
-    function draw() {
+        async function initCamera() {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: { ideal: "environment" } },
+            audio: false
+          });
 
-      image(video, 0, 0);
+          video.srcObject = stream;
 
-      let mejor = null;
+          await new Promise(res => video.onloadedmetadata = () => res());
 
-      for (let i = 0; i < detections.length; i++) {
-        let d = detections[i];
-
-        if (mejor == null || d.confidence > mejor.confidence) {
-          mejor = d;
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
         }
 
-        noFill();
-        stroke(0);
-        rect(d.x, d.y, d.width, d.height);
-      }
+        function drawDetections(detections) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.lineWidth = 3;
+          ctx.font = "16px system-ui, Arial";
 
-      if (mejor && mejor.confidence >= UMBRAL) {
-
-        let cx = mejor.x + mejor.width / 2;
-        let cy = mejor.y + mejor.height / 2;
-        let s = min(mejor.width, mejor.height) / 120;
-
-        if (mejor.label === "person") {
-          dibujarPersona(cx, cy, s);
-        } else if (mejor.label === "cell phone") {
-          dibujarMovil(cx, cy, s);
-        } else if (mejor.label === "bottle") {
-          dibujarBotella(cx, cy, s);
-        } else {
-          dibujarDesconocido(cx, cy, s);
+          for (const d of detections) {
+            ctx.strokeRect(d.x, d.y, d.width, d.height);
+            const label = `${d.label} (${Math.round(d.confidence * 100)}%)`;
+            ctx.fillText(label, d.x + 6, Math.max(16, d.y + 16));
+          }
         }
-      }
-    }
 
-    // -------------------
-    // FUNCIONES DE DIBUJO
-    // -------------------
+        function pickBest(detections) {
+          if (!detections || detections.length === 0) return null;
+          let best = detections[0];
+          for (const d of detections) {
+            if (d.confidence > best.confidence) best = d;
+          }
+          return best;
+        }
 
-    function dibujarPersona(cx, cy, s) {
-      push();
-      translate(cx, cy);
-      scale(s);
+        function loopDetect() {
+          if (!running || !detector) return;
 
-      noFill();
-      stroke(0);
+          detector.detect(video, (err, results) => {
+            if (err) {
+              console.error(err);
+              setStatus("error en detección (ver consola)");
+              running = false;
+              return;
+            }
 
-      circle(0, -40, 36);
-      rect(-12, -22, 24, 40);
+            // 1) Dibuja cajas y etiquetas
+            drawDetections(results);
 
-      line(-28, -10, 28, -10);
-      line(-8, 18, -22, 48);
-      line(8, 18, 22, 48);
+            // 2) Elige la mejor detección y muéstrala en la UI
+            const best = pickBest(results);
+            bestEl.textContent = best
+              ? `Mejor detección: ${best.label} (${Math.round(best.confidence * 100)}%)`
+              : "Mejor detección: —";
 
-      pop();
-    }
+            // 3) Si la detección es suficientemente fiable, dibuja una figura predefinida encima
+            if (best && best.confidence >= UMBRAL_CONF) {
+              const cx = best.x + best.width / 2;
+              const cy = best.y + best.height / 2;
+              const s = Math.min(best.width, best.height) / 120;
 
-    function dibujarMovil(cx, cy, s) {
-      push();
-      translate(cx, cy);
-      scale(s);
+              // Condicionales (sin objetos/diccionarios)
+              if (best.label === "person") {
+                dibujarPersona(cx, cy, s);
+              } else if (best.label === "cell phone") {
+                dibujarMovil(cx, cy, s);
+              } else if (best.label === "bottle") {
+                dibujarBotella(cx, cy, s);
+              } else {
+                dibujarDesconocido(cx, cy, s);
+              }
+            }
 
-      noFill();
-      stroke(0);
+            requestAnimationFrame(loopDetect);
+          });
+        }
 
-      rect(-18, -35, 36, 70);
-      rect(-14, -28, 28, 52);
-      circle(0, 30, 6);
+        // --------------------------
+        // FUNCIONES DE DIBUJO (solo dibujo)
+        // --------------------------
 
-      pop();
-    }
+        function dibujarPersona(cx, cy, s) {
+          ctx.save();
+          ctx.translate(cx, cy);
+          ctx.scale(s, s);
 
-    function dibujarBotella(cx, cy, s) {
-      push();
-      translate(cx, cy);
-      scale(s);
+          // Cabeza
+          ctx.beginPath();
+          ctx.arc(0, -40, 18, 0, Math.PI * 2);
+          ctx.stroke();
 
-      noFill();
-      stroke(0);
+          // Cuerpo
+          ctx.strokeRect(-12, -22, 24, 40);
 
-      rect(-14, -30, 28, 60);
-      rect(-8, -45, 16, 15);
-      rect(-10, -52, 20, 7);
+          // Brazos
+          ctx.beginPath();
+          ctx.moveTo(-28, -10);
+          ctx.lineTo(28, -10);
+          ctx.stroke();
 
-      pop();
-    }
+          // Piernas
+          ctx.beginPath();
+          ctx.moveTo(-8, 18);
+          ctx.lineTo(-22, 48);
+          ctx.moveTo(8, 18);
+          ctx.lineTo(22, 48);
+          ctx.stroke();
 
-    function dibujarDesconocido(cx, cy, s) {
-      push();
-      translate(cx, cy);
-      scale(s);
+          ctx.restore();
+        }
 
-      textSize(48);
-      text("?", -12, 18);
+        function dibujarMovil(cx, cy, s) {
+          ctx.save();
+          ctx.translate(cx, cy);
+          ctx.scale(s, s);
 
-      pop();
-    }
+          // Carcasa
+          ctx.strokeRect(-18, -35, 36, 70);
 
-    </script>
+          // Pantalla
+          ctx.strokeRect(-14, -28, 28, 52);
+
+          // Botón
+          ctx.beginPath();
+          ctx.arc(0, 30, 3, 0, Math.PI * 2);
+          ctx.stroke();
+
+          ctx.restore();
+        }
+
+        function dibujarBotella(cx, cy, s) {
+          ctx.save();
+          ctx.translate(cx, cy);
+          ctx.scale(s, s);
+
+          // Cuerpo
+          ctx.strokeRect(-14, -30, 28, 60);
+
+          // Cuello
+          ctx.strokeRect(-8, -45, 16, 15);
+
+          // Tapón
+          ctx.strokeRect(-10, -52, 20, 7);
+
+          ctx.restore();
+        }
+
+        function dibujarDesconocido(cx, cy, s) {
+          ctx.save();
+          ctx.translate(cx, cy);
+          ctx.scale(s, s);
+
+          // Signo de interrogación
+          ctx.font = "48px system-ui, Arial";
+          ctx.fillText("?", -12, 18);
+
+          ctx.restore();
+        }
+
+        btnStart.addEventListener("click", async () => {
+          try {
+            btnStart.disabled = true;
+
+            setStatus("iniciando cámara…");
+            await initCamera();
+
+            setStatus("cargando modelo COCO-SSD…");
+            detector = await ml5.objectDetector("cocossd");
+
+            setStatus("detectando…");
+            running = true;
+            loopDetect();
+
+          } catch (e) {
+            console.error(e);
+            setStatus(`error: ${e.name} — ${e.message}`);
+            btnStart.disabled = false;
+          }
+        });
+      </script>
     </body>
     </html>
