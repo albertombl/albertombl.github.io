@@ -1,10 +1,9 @@
-
  <!doctype html>
     <html lang="es">
     <head>
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width,initial-scale=1" />
-      <title>ML5 02 · Detección + Dibujo</title>
+      <title>ML5 02 · Capturas COCO</title>
 
       <!-- ml5.js (versión fija para evitar cambios de API) -->
       <script src="https://unpkg.com/ml5@0.12.2/dist/ml5.min.js"></script>
@@ -17,14 +16,16 @@
         button { padding: 10px 12px; font-size: 14px; cursor: pointer; }
         .row { display:flex; gap:12px; flex-wrap: wrap; align-items:center; margin-bottom: 10px; }
         .badge { display:inline-block; border:1px solid #ccc; border-radius:999px; padding: 3px 10px; }
+        .small { font-size: 12px; color: #444; }
       </style>
     </head>
 
     <body>
-      <h1>ML5 02 · Detección y dibujo por etiquetas</h1>
+      <h1>ML5 02 · Capturas COCO</h1>
 
       <div class="row">
         <button id="btnStart">Iniciar cámara</button>
+        <button id="btnShot">Capturar</button>
         <span id="status" class="badge">Estado: esperando…</span>
         <span id="best" class="badge">Mejor detección: —</span>
       </div>
@@ -34,35 +35,35 @@
         <canvas id="overlay"></canvas>
       </div>
 
+      <p class="small">
+        Nota: La captura descarga un PNG en tu dispositivo. Después debes subirlo a
+        <b>m5_detecta/capturas/</b> dentro de tu repositorio para que sea público en GitHub Pages.
+      </p>
+
       <div>
         <h3>Explicación de cómo funciona el código</h3>
 
         <p>
-          Sustituye este texto por una explicación en varios párrafos.
-          Explica qué hace el script bloque a bloque: carga de librería, botón, cámara, modelo,
-          detección, elección de la mejor detección, cálculo de centro y escala, condicionales
-          para decidir qué dibujar y funciones de dibujo.
-        </p>
-
-        <p>
-          Cuanto mejor esté explicado (y más se note que lo entiendes), mejor será la nota.
-          Una explicación de un solo párrafo tendrá poca nota.
+          Sustituye este texto por una explicación en varios párrafos. Explica bloque a bloque:
+          librería, interfaz, cámara, canvas, modelo, detección, cómo se dibujan cajas y textos,
+          cómo funciona el botón de captura y por qué hay que subir las imágenes al repositorio.
         </p>
       </div>
 
       <script>
         const btnStart = document.getElementById("btnStart");
+        const btnShot  = document.getElementById("btnShot");
         const statusEl = document.getElementById("status");
-        const bestEl = document.getElementById("best");
+        const bestEl   = document.getElementById("best");
 
-        const video = document.getElementById("video");
+        const video  = document.getElementById("video");
         const canvas = document.getElementById("overlay");
-        const ctx = canvas.getContext("2d");
+        const ctx    = canvas.getContext("2d");
 
         let detector = null;
-        let running = false;
+        let running  = false;
 
-        const UMBRAL_CONF = 0.60;
+        let ultimoLabel = "sin_objeto";
 
         function setStatus(t) { statusEl.textContent = "Estado: " + t; }
 
@@ -76,14 +77,36 @@
 
           await new Promise(res => video.onloadedmetadata = () => res());
 
-          canvas.width = video.videoWidth;
+          canvas.width  = video.videoWidth;
           canvas.height = video.videoHeight;
         }
 
-       function drawDetections(detections) {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
+        function drawDetections(detections) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+          ctx.lineWidth = 3;
+          ctx.font = "16px system-ui, Arial";
+
+          for (const d of detections) {
+            // Caja
+            ctx.strokeRect(d.x, d.y, d.width, d.height);
+
+            // Texto: label + %
+            const pct = Math.round(d.confidence * 100);
+            const label = `${d.label} (${pct}%)`;
+
+            // Fondo simple para legibilidad
+            const pad = 4;
+            const textW = ctx.measureText(label).width;
+            const tx = d.x;
+            const ty = Math.max(18, d.y);
+
+            ctx.fillRect(tx, ty - 18, textW + pad * 2, 18);
+            ctx.clearRect(tx + 1, ty - 17, textW + pad * 2 - 2, 16);
+
+            ctx.strokeText(label, tx + pad, ty - 4);
+          }
+        }
 
         function pickBest(detections) {
           if (!detections || detections.length === 0) return null;
@@ -105,118 +128,47 @@
               return;
             }
 
-            // 1) Dibuja cajas y etiquetas
             drawDetections(results);
 
-            // 2) Elige la mejor detección y muéstrala en la UI
             const best = pickBest(results);
-            bestEl.textContent = best
-              ? `Mejor detección: ${best.label} (${Math.round(best.confidence * 100)}%)`
-              : "Mejor detección: —";
 
-            // 3) Si la detección es suficientemente fiable, dibuja una figura predefinida encima
-            if (best && best.confidence >= UMBRAL_CONF) {
-              const cx = best.x + best.width / 2;
-              const cy = best.y + best.height / 2;
-              const s = Math.min(best.width, best.height) / 120;
-
-              // Condicionales (sin objetos/diccionarios)
-              if (best.label === "person") {
-                dibujarPersona(cx, cy, s);
-              } else if (best.label === "cell phone") {
-                dibujarMovil(cx, cy, s);
-              } else if (best.label === "bottle") {
-                dibujarBotella(cx, cy, s);
-              } else {
-                dibujarDesconocido(cx, cy, s);
-              }
+            if (best) {
+              ultimoLabel = best.label;
+              bestEl.textContent = `Mejor detección: ${best.label} (${Math.round(best.confidence * 100)}%)`;
+            } else {
+              ultimoLabel = "sin_objeto";
+              bestEl.textContent = "Mejor detección: —";
             }
 
             requestAnimationFrame(loopDetect);
           });
         }
 
-        // --------------------------
-        // FUNCIONES DE DIBUJO (solo dibujo)
-        // --------------------------
-
-        function dibujarPersona(cx, cy, s) {
-          ctx.save();
-          ctx.translate(cx, cy);
-          ctx.scale(s, s);
-
-          // Cabeza
-          ctx.beginPath();
-          ctx.arc(0, -40, 18, 0, Math.PI * 2);
-          ctx.stroke();
-
-          // Cuerpo
-          ctx.strokeRect(-12, -22, 24, 40);
-
-          // Brazos
-          ctx.beginPath();
-          ctx.moveTo(-28, -10);
-          ctx.lineTo(28, -10);
-          ctx.stroke();
-
-          // Piernas
-          ctx.beginPath();
-          ctx.moveTo(-8, 18);
-          ctx.lineTo(-22, 48);
-          ctx.moveTo(8, 18);
-          ctx.lineTo(22, 48);
-          ctx.stroke();
-
-          ctx.restore();
+        function nombreSeguro(label) {
+          return (label || "sin_objeto")
+            .toLowerCase()
+            .replaceAll(" ", "_")
+            .replaceAll("/", "_");
         }
 
-        function dibujarMovil(cx, cy, s) {
-          ctx.save();
-          ctx.translate(cx, cy);
-          ctx.scale(s, s);
+        btnShot.addEventListener("click", () => {
+          // Nombre con timestamp + label
+          const ahora = new Date();
+          const ts =
+            String(ahora.getFullYear()) +
+            String(ahora.getMonth() + 1).padStart(2, "0") +
+            String(ahora.getDate()).padStart(2, "0") + "_" +
+            String(ahora.getHours()).padStart(2, "0") +
+            String(ahora.getMinutes()).padStart(2, "0") +
+            String(ahora.getSeconds()).padStart(2, "0");
 
-          // Carcasa
-          ctx.strokeRect(-18, -35, 36, 70);
+          const file = `${ts}_${nombreSeguro(ultimoLabel)}.png`;
 
-          // Pantalla
-          ctx.strokeRect(-14, -28, 28, 52);
-
-          // Botón
-          ctx.beginPath();
-          ctx.arc(0, 30, 3, 0, Math.PI * 2);
-          ctx.stroke();
-
-          ctx.restore();
-        }
-
-        function dibujarBotella(cx, cy, s) {
-          ctx.save();
-          ctx.translate(cx, cy);
-          ctx.scale(s, s);
-
-          // Cuerpo
-          ctx.strokeRect(-14, -30, 28, 60);
-
-          // Cuello
-          ctx.strokeRect(-8, -45, 16, 15);
-
-          // Tapón
-          ctx.strokeRect(-10, -52, 20, 7);
-
-          ctx.restore();
-        }
-
-        function dibujarDesconocido(cx, cy, s) {
-          ctx.save();
-          ctx.translate(cx, cy);
-          ctx.scale(s, s);
-
-          // Signo de interrogación
-          ctx.font = "48px system-ui, Arial";
-          ctx.fillText("?", -12, 18);
-
-          ctx.restore();
-        }
+          const link = document.createElement("a");
+          link.download = file;
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+        });
 
         btnStart.addEventListener("click", async () => {
           try {
