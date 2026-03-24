@@ -1,77 +1,84 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RA 01 - Primera escena con marcador</title>
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <title>RA 01 - Primera escena con marcador</title>
 
-  <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
-  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+      <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+      <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: white;
-    }
+      <style>
+        body {
+          margin: 0;
+          font-family: Arial, sans-serif;
+          background: #111;
+          color: white;
+        }
 
-    .info {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      right: 10px;
-      z-index: 10;
-      background: rgba(0,0,0,0.6);
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 14px;
-    }
+        a-scene {
+          width: 100%;
+          height: 70vh;
+          display: block;
+        }
 
-    .evidencias {
-      position: relative;
-      z-index: 20;
-      background: white;
-      color: black;
-      padding: 20px;
-    }
+        .info {
+          position: relative;
+          z-index: 10;
+          background: rgba(0,0,0,0.6);
+          padding: 10px;
+          border-radius: 8px;
+          font-size: 14px;
+          margin: 10px;
+        }
 
-    .evidencias img {
-      max-width: 300px;
-      width: 100%;
-      display: block;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-    }
-  </style>
-</head>
-<body>
+        .evidencias {
+          position: relative;
+          z-index: 20;
+          background: white;
+          color: black;
+          padding: 20px;
+        }
 
-  <div class="info">
-    <strong>Tarea 1. Primera escena de RA con marcador</strong><br>
-    Enfoca el marcador para ver aparecer la figura 3D.
-  </div>
+        .evidencias img {
+          max-width: 300px;
+          width: 100%;
+          display: block;
+          margin-bottom: 15px;
+          border: 1px solid #ccc;
+        }
+      </style>
+    </head>
 
-  <a-scene embedded arjs>
-    <a-marker preset="hiro">
-      <a-box 
-        position="0 0.5 0"
-        rotation="0 45 0"
-        scale="0.5 0.5 0.5"
-        color="red">
-      </a-box>
-    </a-marker>
+    <body>
 
-    <a-entity camera></a-entity>
-  </a-scene>
+      <div class="info">
+        <strong>Tarea 1. Primera escena de RA con marcador</strong><br>
+        Enfoca el marcador Hiro para ver aparecer la figura 3D.
+      </div>
 
-  <section class="evidencias">
-    <h2>Evidencias de la tarea</h2>
-    <p>Aquí debes insertar una o dos fotos hechas con otro móvil, donde se vea esta experiencia de realidad aumentada funcionando.</p>
+      <a-scene embedded arjs="sourceType: webcam;">
 
-    <img src="imagenes/evidencia1.jpg" alt="Evidencia 1 de la tarea de realidad aumentada">
-    <img src="imagenes/evidencia2.jpg" alt="Evidencia 2 de la tarea de realidad aumentada">
-  </section>
+        <a-marker preset="hiro">
+          <a-box 
+            position="0 0.5 0"
+            rotation="0 45 0"
+            scale="0.5 0.5 0.5"
+            color="red">
+          </a-box>
+        </a-marker>
 
-</body>
-</html>
+        <a-entity camera></a-entity>
+
+      </a-scene>
+
+      <section class="evidencias">
+        <h2>Evidencias de la tarea</h2>
+        <p>Aquí debes insertar una o dos fotos hechas con otro móvil, donde se vea esta experiencia funcionando.</p>
+
+        <img src="imagenes/evidencia1.jpg" alt="Evidencia 1">
+        <img src="imagenes/evidencia2.jpg" alt="Evidencia 2">
+      </section>
+
+    </body>
+    </html>
