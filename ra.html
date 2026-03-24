@@ -1,4 +1,4 @@
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -27,6 +27,7 @@
     }
 
     .caja-ra {
+      position: relative;
       width: 100%;
       max-width: 420px;
       height: 420px;
@@ -35,34 +36,45 @@
       border-radius: 12px;
       overflow: hidden;
       background: #000;
-      position: relative;
     }
 
     .caja-ra a-scene {
       position: absolute !important;
-      inset: 0;
+      top: 0;
+      left: 0;
       width: 100% !important;
       height: 100% !important;
     }
 
-    .caja-ra video,
-    .caja-ra canvas,
-    .caja-ra .a-canvas {
+    /* Canvas principal de A-Frame */
+    .a-canvas {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      z-index: 2 !important;
+    }
+
+    /* Vídeo de la cámara que inyecta AR.js */
+    #arjs-video {
       position: absolute !important;
       top: 0 !important;
       left: 0 !important;
       width: 100% !important;
       height: 100% !important;
       object-fit: cover !important;
+      z-index: 1 !important;
     }
 
-    .caja-ra .a-enter-vr,
-    .caja-ra .a-orientation-modal,
-    .caja-ra .a-fullscreen-ui {
-      display: none !important;
+    /* Canvas auxiliar de AR.js */
+    canvas {
+      max-width: 100%;
     }
 
     .evidencias {
+      position: relative;
+      z-index: 10;
       background: white;
       color: black;
       padding: 20px;
@@ -76,17 +88,23 @@
       margin-bottom: 15px;
       border: 1px solid #ccc;
     }
+
+    .a-enter-vr,
+    .a-orientation-modal,
+    .a-fullscreen-ui {
+      display: none !important;
+    }
   </style>
 </head>
 
 <body>
   <div class="pagina">
 
-    <div class="caja-ra">
+    <div class="caja-ra" id="contenedor-ra">
       <a-scene
         embedded
         vr-mode-ui="enabled: false"
-        renderer="logarithmicDepthBuffer: true;"
+        renderer="alpha: true; antialias: true;"
         arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;">
 
         <a-marker preset="hiro">
@@ -111,5 +129,28 @@
     </section>
 
   </div>
+
+  <script>
+    window.addEventListener("load", () => {
+      const contenedor = document.getElementById("contenedor-ra");
+
+      const recolocarElementosAR = () => {
+        const video = document.getElementById("arjs-video");
+        const canvas = document.querySelector(".a-canvas");
+
+        if (video && video.parentElement !== contenedor) {
+          contenedor.appendChild(video);
+        }
+
+        if (canvas && canvas.parentElement !== contenedor) {
+          contenedor.appendChild(canvas);
+        }
+      };
+
+      setTimeout(recolocarElementosAR, 1000);
+      setTimeout(recolocarElementosAR, 2000);
+      setTimeout(recolocarElementosAR, 3000);
+    });
+  </script>
 </body>
 </html>
