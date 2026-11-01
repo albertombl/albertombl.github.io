@@ -1,0 +1,19 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>*{box-sizing:border-box}body{font:16px/1.55 system-ui,sans-serif;margin:0;background:#f5f8fa;color:#203044}main{max-width:950px;margin:35px auto;padding:0 20px}a{color:#126b76}header{padding:16px 24px;background:white;border-bottom:1px solid #dce4ec}h1{font-size:clamp(1.7rem,4vw,2.6rem)}.panel{background:white;border:1px solid #dce4ec;border-radius:14px;padding:22px;margin:18px 0}label{display:block;font-weight:600;margin:12px 0 4px}input,select,button{font:inherit;padding:8px;border-radius:7px;border:1px solid #a9b8c7}input[type=range]{width:100%}button{background:#126b76;color:white;cursor:pointer}pre{background:#edf3f6;padding:16px;border-radius:8px;overflow:auto}canvas,svg{max-width:100%}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}small{color:#526577}</style><title>Referencia rápida de p5.js | Herramientas de aula</title></head><body><header><a href="../index.html#herramientas">← Biblioteca de herramientas</a></header><main><h1>Referencia rápida de p5.js</h1><p>Consulta funciones habituales y prueba un ejemplo modificando sus parámetros.</p><div class="grid"><div class="panel"><h2>Dibujo</h2><pre>createCanvas(400, 300);
+background(240);
+fill(30, 120, 170);
+stroke(0);
+rect(20, 20, 100, 60);
+ellipse(200, 150, 80, 80);
+line(0, 0, 400, 300);</pre></div><div class="panel"><h2>Interacción</h2><pre>mouseX, mouseY
+mouseIsPressed
+keyIsPressed
+frameCount
+random(min, max)
+map(value, a, b, c, d)</pre></div></div><div class="panel"><h2>Ejemplo interactivo: círculo en movimiento</h2><label for="speed">Velocidad (px por fotograma): <output id="val">2</output></label><input type="range" id="speed" min="0" max="10" step=".5" value="2"><canvas id="canvas" width="600" height="220" style="border:1px solid #cbd5df;background:white;width:100%"></canvas><pre>function setup() {
+  createCanvas(600, 220);
+}
+function draw() {
+  background(245);
+  circle(x, 110, 45);
+  x += velocidad;
+}</pre><small>La animación utiliza Canvas nativo para funcionar sin dependencias; el código mostrado es su equivalente conceptual en p5.js.</small></div></main><script>let x=25;const c=document.getElementById('canvas'),ctx=c.getContext('2d'),v=document.getElementById('speed');function draw(){ctx.clearRect(0,0,600,220);ctx.fillStyle='#edf4f7';ctx.fillRect(0,0,600,220);ctx.fillStyle='#126b76';ctx.beginPath();ctx.arc(x,110,23,0,Math.PI*2);ctx.fill();x+=Number(v.value);if(x>623)x=-23;document.getElementById('val').textContent=v.value;requestAnimationFrame(draw)}draw();</script></body></html>
